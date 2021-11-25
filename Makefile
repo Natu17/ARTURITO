@@ -1,4 +1,10 @@
+# all:
+# 	yacc -d Grammar/grammar.y
+# 	lex Grammar/compiller.l
+# 	gcc -o parser lex.yy.c y.tab.c -ly
+
 all:
-	yacc -d Grammar/grammar.y
-	lex Grammar/compiller.l
-	gcc -o parser lex.yy.c y.tab.c -ly
+	+$(MAKE) -C Grammar
+
+clean:
+	+$(MAKE) clean -C Grammar
