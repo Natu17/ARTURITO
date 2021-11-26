@@ -9,7 +9,7 @@ const char *types[] = {"h1", "h2", "body", "p", "div"};
 struct selector * selectorInit(int type){
     struct selector * s = malloc(MAX*(sizeof(struct selector)));
     s->type = type;
-    s->fontSize = malloc(MAX*(sizeof(char)));
+    s->fontSize = DEF_FONT_SIZE;
     
     for(int i =0; i<4; i++){
          s->margin[i] = 0;
@@ -28,7 +28,7 @@ void setColor(int color, struct selector * selectorStruct){
 }
 
 
-void setFontSize(char * font, struct selector * selectorStruct){
+void setFontSize(int font, struct selector * selectorStruct){
      selectorStruct->fontSize = font;
 }
 
@@ -74,5 +74,9 @@ void setPaddingRight(int p, struct selector * selectorStruct){
 
 void setPaddingLeft(int p, struct selector * selectorStruct){
          selectorStruct->padding[LEFT] = p;
+}
+
+void setName(char * name, struct selector * selectorStruct){
+    selectorStruct->name = name;
 }
 

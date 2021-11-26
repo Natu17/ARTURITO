@@ -1,13 +1,13 @@
 
 #ifndef SELECTOR_H
 #define SELECTOR_H
-
+#define DEF_FONT_SIZE 16
 
 struct selector
 {
     int type;
     int color;
-    char *fontSize;
+    int fontSize;
     int margin[4];
     int padding[4];
     char * name;
@@ -36,7 +36,7 @@ enum orientation
 const char *types[];
 struct selector *selectorInit(int type);
 void setColor(int color, struct selector *selectorStruct);
-void setFontSize(char *font, struct selector *selectorStruct);
+void setFontSize(int font, struct selector *selectorStruct);
 void setMargin(int m, struct selector *selectorStruct);
 void setMarginTop(int m, struct selector *selectorStruct);
 void setMarginBottom(int m, struct selector *selectorStruct);
@@ -47,5 +47,6 @@ void setPaddingTop(int p, struct selector *selectorStruct);
 void setPaddingBottom(int p, struct selector *selectorStruct);
 void setPaddingRight(int p, struct selector *selectorStruct);
 void setPaddingLeft(int p, struct selector *selectorStruct);
+void setName(char * name, struct selector * selectorStruct);
 
 #endif

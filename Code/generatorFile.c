@@ -43,7 +43,26 @@ void writeSelectors(FILE *cssFile)
     {
         fputs(setType(selectors[i]),cssFile);
         fputs("{\n",cssFile);
-        fprintf(cssFile, "color: #%x\n", selectors[i].color);
+        fprintf(cssFile, "\tcolor: #%x;\n", selectors[i].color);
+        if(selectors[i].fontSize != DEF_FONT_SIZE){
+            fprintf(cssFile, "\tfont-size: %dpx;\n", selectors[i].fontSize);
+        }
+        fputs("\tmargin: ",cssFile);
+        for (size_t j = 0; j < LEFT ; j++)
+        {
+            fprintf(cssFile, "%dpx ", selectors[i].margin[j]); 
+        }
+
+        fprintf(cssFile, "%dpx;\n", selectors[i].margin[LEFT]); 
+
+        fputs("\tpadding: ",cssFile);
+        for (size_t j = 0; j < LEFT ; j++)
+        {
+            fprintf(cssFile, "%dpx ", selectors[i].margin[j]); 
+        }
+
+        fprintf(cssFile, "%dpx;\n", selectors[i].margin[LEFT]);
+        
         fputs("}\n",cssFile);
     }
 }
@@ -71,7 +90,8 @@ int main(int argc, char const *argv[])
     FILE * file = createCssFile();
     struct selector * s = selectorInit(H1);
     setColor(0xCB905C,s);
-
+    setMarginRight(10,s);
+    setPadding(10,s);
     newSelectors();
     addSelectors(*s);
     writeSelectors(file);
