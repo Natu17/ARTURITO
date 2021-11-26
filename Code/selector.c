@@ -14,37 +14,83 @@ enum type{
     DIV,
 };
 
-
-struct selector {
-    int type;
-    int color;
-    char * fontSize;
-    int margin;
-    int padding;
+enum orientation{
+    TOP,
+    BOTTOM,
+    RIGHT,
+    LEFT,
 };
+
+
 
 
 struct selector * selectorInit(int type){
     struct selector * s = malloc(MAX*(sizeof(struct selector)));
     s->type = type;
     s->fontSize = malloc(MAX*(sizeof(char)));
+    
+    for(int i =0; i<4; i++){
+         s->margin[i] = 0;
+     }
+    
+    for(int i =0; i<4; i++){
+         s->padding[i] = 0;
+     }
+    
+    return s;
 
 }
 
-int setColor(int color, struct selector * selectorStruct){
+void setColor(int color, struct selector * selectorStruct){
     selectorStruct->color = color;
 }
 
 
-int setFontSize(char * font, struct selector * selectorStruct){
+void setFontSize(char * font, struct selector * selectorStruct){
      selectorStruct->fontSize = font;
 }
 
-int setMargin(int m, struct selector * selectorStruct){
-     selectorStruct->margin = m;
+void setMargin(int m, struct selector * selectorStruct){
+     for(int i =0; i<4; i++){
+         selectorStruct->margin[i] = m;
+     }
 }
 
-
-int setPadding(int p, struct selector * selectorStruct){
-     selectorStruct->padding = p;
+void setMarginTop(int m, struct selector * selectorStruct){
+         selectorStruct->margin[TOP] = m;
 }
+
+void setMarginBottom(int m, struct selector * selectorStruct){
+         selectorStruct->margin[BOTTOM] = m;
+}
+
+void setMarginRight(int m, struct selector * selectorStruct){
+         selectorStruct->margin[RIGHT] = m;
+}
+
+void setMarginLeft(int m, struct selector * selectorStruct){
+         selectorStruct->margin[LEFT] = m;
+}
+
+void setPadding(int p, struct selector * selectorStruct){
+     for(int i =0; i<4; i++){
+         selectorStruct->padding[i] = p;
+     }
+}
+
+void setPaddingTop(int p, struct selector * selectorStruct){
+         selectorStruct->padding[TOP] = p;
+}
+
+void setPaddingBottom(int p, struct selector * selectorStruct){
+         selectorStruct->padding[BOTTOM] = p;
+}
+
+void setPaddingRight(int p, struct selector * selectorStruct){
+         selectorStruct->padding[RIGHT] = p;
+}
+
+void setPaddingLeft(int p, struct selector * selectorStruct){
+         selectorStruct->padding[LEFT] = p;
+}
+
