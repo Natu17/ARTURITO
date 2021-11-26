@@ -19,7 +19,7 @@ END_COMMENT         \*\/
 "not"                          { yylval.operation = NOT; return NOT; }
 
 "int"                          { yylval.operation = INT; return INT; }
-"String"                          { yylval.operation = STR; return STR; }
+"String"                       { yylval.operation = STR; return STR; }
 
 "Color"                        { yylval.operation = COLOR; return COLOR; }
 "Selector"                     { yylval.operation = SELECTOR; return SELECTOR; }
