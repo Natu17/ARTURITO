@@ -1,28 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "selector.h"
+#include "include/selector.h"
 
 #define MAX 4096
 
-enum type{
-    CLASS,
-    ID,
-    H1,
-    H2,
-    BODY,
-    P,
-    DIV,
-};
-
-enum orientation{
-    TOP,
-    BOTTOM,
-    RIGHT,
-    LEFT,
-};
-
-
-
+const char *types[] = {"h1", "h2", "body", "p", "div"};
 
 struct selector * selectorInit(int type){
     struct selector * s = malloc(MAX*(sizeof(struct selector)));
