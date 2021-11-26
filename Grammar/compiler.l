@@ -19,7 +19,7 @@ END_COMMENT         \*\/
 "not"                          { yylval.operation = NOT; return NOT; }
 
 "int"                          { yylval.operation = INT; return INT; }
-"str"                          { yylval.operation = STR; return STR; }
+"String"                          { yylval.operation = STR; return STR; }
 
 "Color"                        { yylval.operation = COLOR; return COLOR; }
 "Selector"                     { yylval.operation = SELECTOR; return SELECTOR; }
@@ -28,8 +28,8 @@ END_COMMENT         \*\/
 "Body"                         { yylval.operation = Body; return Body; }
 "H1"                           { yylval.operation = H1; return H1; }
 "H2"                           { yylval.operation = H2; return H2; }
-"Id"                           { yylval.operation = Id; return Id; }
-"Class"                        { yylval.operation = Class; return Class; }
+"Id"                           { yylval.operation = ID; return ID; }
+"Class"                        { yylval.operation = CLASS; return CLASS; }
 
 "+"                            { yylval.operation = SUM; return SUM; }
 "*"                            { yylval.operation = MULT; return MULT; }
