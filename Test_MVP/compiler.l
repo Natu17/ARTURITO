@@ -6,7 +6,7 @@ BLANK_LINE          ^[ \t]*\n
 DIGIT               [0-9]
 START_COMMENT       \/\*
 END_COMMENT         \*\/
-
+WHITESPACE          [ \t]*
 
 %%
 [\n]			               {yylineno++;}
@@ -24,6 +24,7 @@ END_COMMENT         \*\/
 ">="                           { yylval.operation = GE; return GE; }
 "=="                           { yylval.operation = EQ; return EQ; }
 {BLANK_LINE}                   { yylineno++; }
+{WHITESPACE}                  { /* Ignore */}
 {DIGIT}*                       { yylval.int_value  = atoi(yytext); return INT_LITERAL; }
 .                              { yylval.operation = yytext[0]; return yytext[0]; }
 
