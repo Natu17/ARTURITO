@@ -41,41 +41,52 @@ void writeSelectors(FILE *cssFile)
 {
     for (size_t i = 0; i < size; i++)
     {
-        fputs(setType(selectors[i]),cssFile);
-        fputs("{\n",cssFile);
+        fputs(setType(selectors[i]), cssFile);
+        fputs("{\n", cssFile);
         fprintf(cssFile, "\tcolor: #%x;\n", selectors[i].color);
-        if(selectors[i].fontSize != DEF_FONT_SIZE){
+        if (selectors[i].fontSize != DEF_FONT_SIZE)
+        {
             fprintf(cssFile, "\tfont-size: %dpx;\n", selectors[i].fontSize);
         }
-        fputs("\tmargin: ",cssFile);
-        for (size_t j = 0; j < LEFT ; j++)
+        fputs("\tmargin: ", cssFile);
+        for (size_t j = 0; j < LEFT; j++)
         {
-            fprintf(cssFile, "%dpx ", selectors[i].margin[j]); 
-        }
-
-        fprintf(cssFile, "%dpx;\n", selectors[i].margin[LEFT]); 
-
-        fputs("\tpadding: ",cssFile);
-        for (size_t j = 0; j < LEFT ; j++)
-        {
-            fprintf(cssFile, "%dpx ", selectors[i].margin[j]); 
+            fprintf(cssFile, "%dpx ", selectors[i].margin[j]);
         }
 
         fprintf(cssFile, "%dpx;\n", selectors[i].margin[LEFT]);
-        
-        fputs("}\n",cssFile);
+
+        fputs("\tpadding: ", cssFile);
+        for (size_t j = 0; j < LEFT; j++)
+        {
+            fprintf(cssFile, "%dpx ", selectors[i].margin[j]);
+        }
+
+        fprintf(cssFile, "%dpx;\n", selectors[i].margin[LEFT]);
+
+        fputs("}\n", cssFile);
     }
 }
 
-const char * setType(struct selector s){
-    if(s.type < CLASS){
+const char *setType(struct selector s)
+{
+    if (s.type < CLASS)
+    {
         return types[s.type];
-    }else{
-        if(s.type == CLASS){
-            return strncat("#", s.name, 1);
-        }else{
-             return strncat(".", s.name, 1);
+    }
+    else
+    {
+        char *string = malloc((strlen(s.name) + 1) * sizeof(char));
+        if (s.type == CLASS)
+        {
+            string[0] = '#';
         }
+        else
+        {
+            string[0] = '.';
+        }
+        strcat(string, s.name);
+        return string;
     }
 }
 
@@ -86,16 +97,15 @@ void closeFile(FILE *cssFile)
 
 int main(int argc, char const *argv[])
 {
-    
-    FILE * file = createCssFile();
-    struct selector * s = selectorInit(H1);
-    setColor(0xCB905C,s);
-    setMarginRight(10,s);
-    setPadding(10,s);
+
+    FILE *file = createCssFile();
+    struct selector *s = selectorInit(ID);
+    setName("hola", s);
+    setColor(0xCB905C, s);
+    setMarginRight(10, s);
+    setPadding(10, s);
     newSelectors();
     addSelectors(*s);
     writeSelectors(file);
     closeFile(file);
-
 }
-
