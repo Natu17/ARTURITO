@@ -38,8 +38,9 @@ Node* create_if_node(Node* condition, Node* if_branch, Node* else_branch, int li
 
 Node* create_while_node(Node* condition, Node* loop, int line_number){
     printf("DEBUG: HENLO WHILE NODE ");
-    WhileNode* node = malloc(sizeof(*node));
-
+    // WhileNode* node = malloc(sizeof(*node));
+    Node* node = malloc(sizeof(*node));
+    
     node->node_type   = WHILE;
     node->line_number = line_number;
     
