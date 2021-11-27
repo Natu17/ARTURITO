@@ -97,16 +97,7 @@ OP          : '+' {$$ = ADD;}
             
 TYPE        : INT 
             | DOUBLE
-            | SELECTOR
-            | H1
-            | H2
-            | COLOR
-            | DIV
-            | P
-            | BODY
             | STR
-            | CLASS
-            | ID
             ;
 
 TYPE_MASTER : SELECTOR 
@@ -114,11 +105,9 @@ TYPE_MASTER : SELECTOR
 
 TYPE_SON    : H1
             | H2
-            | COLOR
             | DIV
             | P
             | BODY
-            | STR
             | CLASS
             | ID 
 %%
