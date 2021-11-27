@@ -1,6 +1,12 @@
 #ifndef __node_h__
 #define __node_h__
 
+typedef union SymbolValue {
+    int int_value;
+    char* str_value;
+
+} SymbolValue;
+
 /* Generic Node */
 typedef struct Node {
     int node_type;
@@ -46,5 +52,10 @@ typedef struct IntNode {
 
 } IntNode;
 
+Node* create_node(int node_type, Node* left, Node* right, int line_number);
+Node* create_if_node(Node* condition, Node* if_branch, Node* else_branch, int line_number);
+Node* create_while_node(Node* condition, Node* loop, int line_number);
+Node* create_assignment_node(char* lvalue, Node* rvalue, int line_number);
+Node* create_int_node(int value, int line_number);
 
 #endif
