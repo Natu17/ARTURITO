@@ -13,4 +13,10 @@ css_wizard: lex.yy.c y.tab.c y.tab.h
 	gcc -o parser lex.yy.c y.tab.c ../SyntaxTree/node.c -ly
 
 clean:
-	rm -f lex.yy.c y.tab.c y.tab.h
+	rm -f lex.yy.c y.tab.c y.tab.h parser parser_debug
+
+debug: debug_wizard
+	echo "Finished Debugging Session"
+
+debug_wizard: lex.yy.c y.tab.c y.tab.h
+	gcc -g -o parser_debug lex.yy.c y.tab.c ../SyntaxTree/node.c -ly
