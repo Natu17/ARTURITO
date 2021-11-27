@@ -49,6 +49,7 @@ STATMENT    : DECL { $$ = $1; }
             | CND  { $$ = $1; }
 
 DECL        : TYPE NAME '=' NEW TYPE '(' LIST_ARG ')' ';' {return 0;}
+            | TYPE TYPE_MASTER '=' NEW TYPE_SON '(' LIST_ARG ')' ';' {return 0;}
             ;
 
 ASSIGN      : VALUE '=' VALUES {return 0;}
@@ -106,8 +107,20 @@ TYPE        : INT
             | STR
             | CLASS
             | ID
-            
             ;
+
+TYPE_MASTER : SELECTOR 
+            ;
+
+TYPE_SON    : H1
+            | H2
+            | COLOR
+            | DIV
+            | P
+            | BODY
+            | STR
+            | CLASS
+            | ID 
 %%
 
 int yywrap(){
