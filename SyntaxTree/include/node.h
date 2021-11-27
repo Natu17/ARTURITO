@@ -14,6 +14,12 @@ typedef struct Node {
 
     struct Node* left;
     struct Node* right;
+
+    struct Node* condition;
+    struct Node* if_branch;
+    struct Node* else_branch;
+
+    struct Node* loop;
 } Node;
 
 /* Some nodes have a special format: */
