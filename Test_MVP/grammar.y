@@ -33,8 +33,8 @@
 %left '('
 %right ')'
 
-%type <node> STATMENTS STATMENT EXP LIST_ARG VALUES NOT_ID_NUM ARITH CND
-%type <operation> '<' '>' '(' ')'
+%type <node> STATMENTS STATMENT EXP LIST_ARG VALUES NOT_ID_NUM ARITH CND BLOCK
+%type <operation> '<' '>' '(' ')' '{' '}'
 
 %start PROGRAM
 
@@ -42,19 +42,22 @@
 
 PROGRAM     : MAIN { printf("Finished Parsing =)\n"); }
 
-MAIN        : STATMENTS {printf("Hi\n");}
+MAIN        : STATMENTS {}
 
 STATMENTS   : STATMENT STATMENTS {$$ = create_node(STATEMENT_LIST, $1, $2, yylineno); }
-            |      { printf("NULL"); $$ = NULL; }
+            |      { $$ = NULL; }
             ;
 
 STATMENT    : CND  { $$ = $1; }
             ;
 
-CND         : IF '(' EXP ')' '{' STATMENTS '}' {printf("Hello if"); $$ = create_if_node($3, $6, NULL, yylineno);}
+BLOCK       : '{' STATMENTS '}'  { $$=$2; }
+            |  { $$=NULL; }
+
+CND         : IF '(' EXP ')' BLOCK {$$ = create_if_node($3, $5, NULL, yylineno);}
             ;
 
-EXP         : ARITH {return 0;}
+EXP         : ARITH { $$ = $1;}
             | VALUES      {return 0;}
             ;
 
@@ -64,8 +67,8 @@ VALUES      : NOT_ID_NUM { $$=$1; }
 NOT_ID_NUM  : INT_LITERAL  {$$ = create_int_node($1, yylineno);}
             ;
 
-ARITH       : NOT_ID_NUM '>' NOT_ID_NUM  {printf("hola\n"); $$ = create_node($2, $1, $3, yylineno); }
-            | NOT_ID_NUM '<' NOT_ID_NUM  {printf("hullo\n");$$ = create_node($2, $1, $3, yylineno); }
+ARITH       : NOT_ID_NUM '>' NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno); }
+            | NOT_ID_NUM '<' NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno); }
             ;
             
 %%
