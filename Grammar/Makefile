@@ -1,9 +1,10 @@
 # taken from https://github.com/meyerd/flex-bison-example/blob/master/Makefile
 
 all: css_wizard
+	echo "COMPILED GRAMMAR"
 
 y.tab.c y.tab.h: grammar.y
-	yacc -d grammar.y
+	yacc -d grammar.y 
 
 lex.yy.c: y.tab.h
 	lex compiler.l
