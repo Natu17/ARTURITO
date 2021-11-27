@@ -33,7 +33,7 @@
 %left '('
 %right ')'
 
-%type <node> STATMENTS STATMENT EXP LIST_ARG VALUES NOT_ID_NUM ARITH CND BLOCK
+%type <node> STATMENTS STATMENT EXP LIST_ARG VALUES NOT_ID_NUM ARITH CND BLOCK LOOP
 %type <operation> '<' '>' '(' ')' '+' '-' '/' '*'
 
 %start PROGRAM
@@ -49,6 +49,7 @@ STATMENTS   : STATMENT STATMENTS {$$ = create_node(STATEMENT_LIST, $1, $2, yylin
             ;
 
 STATMENT    : CND  { $$ = $1; }
+            | LOOP { $$ = $1;}
             ;
 
 BLOCK       : '{' STATMENTS '}'  { $$=$2; }
@@ -56,6 +57,8 @@ BLOCK       : '{' STATMENTS '}'  { $$=$2; }
 
 CND         : IF '(' EXP ')' BLOCK {$$ = create_if_node($3, $5, NULL, yylineno);}
             ;
+
+LOOP        : WHILE '(' EXP ')' BLOCK {$$ = create_while_node($3, $5, yylineno);}
 
 EXP         : ARITH { $$ = $1;}
             | VALUES      {return 0;}
