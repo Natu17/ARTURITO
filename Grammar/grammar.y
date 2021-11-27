@@ -9,6 +9,7 @@
 %union{
   char * string;
   int operation;
+  int int_value;
   Node* node;
 }
 
@@ -17,6 +18,8 @@
 %token<string> NAME VALUE
 %token<operation> NEW INT DOUBLE STR COLOR SELECTOR DIV P BODY H1 H2 ID CLASS 
 %token<operation> IF WHILE START END
+%token<int_value> INT_LITERAL
+
 %token LET LE GE EQ NE
 %token AND OR NOT
 
@@ -30,7 +33,7 @@
 %left '!'
 %start PROGRAM
 
-%type <node> STATMENTS STATMENT EXP LIST_ARG
+%type <node> STATMENTS STATMENT EXP LIST_ARG ASSIGN VALUES NOT_ID_NUM
 
 
 %%
@@ -52,7 +55,7 @@ DECL        : TYPE NAME '=' NEW TYPE '(' LIST_ARG ')' ';' {return 0;}
             | TYPE TYPE_MASTER '=' NEW TYPE_SON '(' LIST_ARG ')' ';' {return 0;}
             ;
 
-ASSIGN      : VALUE '=' VALUES {return 0;}
+ASSIGN      : VALUE '=' VALUES { $$ = create_assignment_node($1, $3, yylineno);}
 
 CALL        : NAME '(' LIST_ARG ')' {return 0;}
             ;
@@ -75,11 +78,15 @@ CND         : IF '(' EXP ')' {return 0;} '{' STATMENTS '}' {return 0;} {create_i
 EXP         : EXP OP EXP  {return 0;}
             | NOT EXP     {return 0;}
             | VALUES      {return 0;}
-
+            ;
 VALUES      :NAME  {return 0;}
+            |ID    {return 0;}
+            |NOT_ID_NUM {$$=$1}
             |CALL {return 0;}
             ;   
 
+NOT_ID_NUM  : INT_LITERAL  {$$ = create_int_node($1, yylineno);}
+            ;
 
 OP          : '+' {$$ = ADD;}
             | '-' {$$ = SUB;}
