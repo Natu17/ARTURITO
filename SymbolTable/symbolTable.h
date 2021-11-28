@@ -3,7 +3,7 @@
 
 // Enums
 
-typedef enum v_type {V_INT=0, V_DOUBLE, V_STR, V_SELECTOR, V_H1, V_H2, V_DIV, V_P, V_BODY, V_CLASS, V_ID} v_type;
+typedef enum v_type {V_INT=0, V_DOUBLE, V_STR, V_SELECTOR, V_H1, V_H2, V_DIV, V_P, V_BODY, V_CLASS, V_ID, V_VOID} v_type;
 typedef enum op {ADD_OP=0, SUB_OP, MUL_OP, DIV_OP, LESS_OP, GREATER_OP, LESS_EQ_OP, GREATER_EQ_OP, EQUALS_OP, NEQ_OP, AND_OP, OR_OP} op;
 
 // Structures
@@ -43,14 +43,14 @@ typedef struct function {
 
 // Functions
 void init();
-var_t * createVar(char * name, v_type type, v_val value);
-fun_t * createFun(char * name, v_type retval, int argc, ...);
+void createVar(char * name, v_type type, v_val value);
+void createFun(char * name, v_type retval, int argc, ...);
 void freeSymbolTable();
 void freeVar(var_t * var);
 void freeFun(fun_t * f);
 unsigned long hash(char * str);
 void insert(var_t * var);
-void insertFun();
+void insertBasicFun();
 var_t * search(char * name);
 void delete(char * name);
 

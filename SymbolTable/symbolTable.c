@@ -17,10 +17,10 @@ void init(){
         sTable->vars[i] = NULL;
     }
 
-    insertFun();    // insert predefined functions
+    insertBasicFun();    // insert predefined functions
 }
 
-var_t * createVar(char * name, v_type type, v_val value){ 
+void createVar(char * name, v_type type, v_val value){ 
     var_t * var = calloc(1, sizeof(var_t));
     int len = strlen(name);
     var->name = calloc(1, sizeof(len) + 1);
@@ -28,10 +28,10 @@ var_t * createVar(char * name, v_type type, v_val value){
     var->type = type;
     var->value = value;
     
-    return var;
+    insert(var);
 }
 
-fun_t * createFun(char * name, v_type retval, int argc, ...){
+void createFun(char * name, v_type retval, int argc, ...){
     fun_t * f = calloc(1, sizeof(fun_t));
     int len = strlen(name);
     f->name = calloc(1, sizeof(len) + 1);
@@ -55,7 +55,7 @@ fun_t * createFun(char * name, v_type retval, int argc, ...){
         va_end(list);
     }
 
-    return f;
+    insert((var_t *) f);
 }
 
 // void freeSymbolTable(){
@@ -128,8 +128,37 @@ void insert(var_t * var) {
     }
 }
 
-void insertFun(){
-    // Predefined functions
+void insertBasicFun(){
+    createFun("newSelector", V_SELECTOR, 0);
+    createFun("setColor", V_VOID, 5, V_SELECTOR, V_INT, V_INT, V_INT, V_INT);
+    createFun("setFontSize", V_VOID, 2, V_SELECTOR, V_INT);
+    createFun("setMargin", V_VOID, 2, V_SELECTOR, V_DOUBLE);
+    createFun("setMarginTop", V_VOID, 2, V_SELECTOR, V_DOUBLE));
+    createFun("setMarginBottom", V_VOID, 2, V_SELECTOR, V_DOUBLE));
+    createFun("setMarginLeft", V_VOID, 2, V_SELECTOR, V_DOUBLE));
+    createFun("setMarginRight", V_VOID, 2, V_SELECTOR, V_DOUBLE));
+    createFun("setPadding", V_VOID, 2, V_SELECTOR, V_DOUBLE));
+    createFun("setPaddingTop", V_VOID, 2, V_SELECTOR, V_DOUBLE));
+    createFun("setPaddingBottom", V_VOID, 2, V_SELECTOR, V_DOUBLE));
+    createFun("setPaddingLeft", V_VOID, 2, V_SELECTOR, V_DOUBLE));
+    createFun("setPaddingRight", V_VOID, 2, V_SELECTOR, V_DOUBLE));
+    createFun("setName", V_VOID, 2, V_SELECTOR, V_STR);
+    // Other not implemented yet
+    // newH1, newH2, newDiv, newP, newBody, newClass, newId
+    // setBackgroundColor, setWidth, setHeight, textAlign
+    /*
+    createFun("newH1", V_H1, 0);
+    createFun("newH2", V_H2, 0);
+    createFun("newDiv", V_DIV, 0);
+    createFun("newP", V_P, 0);
+    createFun("newBody", V_BODY, 0);
+    createFun("newClass", V_CLASS, 0);
+    createFun("newId", V_ID, 0);
+    createFun("setBackgroundColor", V_VOID, 5, V_SELECTOR, V_INT, V_INT, V_INT, V_INT);
+    createFun("setWidth", V_VOID, 2, V_SELECTOR, V_DOUBLE);
+    createFun("setHeight", V_VOID, 2, V_SELECTOR, V_DOUBLE);
+    createFun("textAlign", V_VOID, 2, V_SELECTOR, V_STR);
+    */
 }
 
 var_t * search(char * name){
