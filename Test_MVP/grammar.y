@@ -24,8 +24,8 @@
 
 
 %token<string> NAME VALUE
-%token<operation> NEW INT_TYPE DOUBLE STR SELECTOR DIV P BODY H1 H2 CLASS VOID 
-%token<operation> IF WHILE
+%token<operation> NEW INT_TYPE DOUBLE STR COLOR SELECTOR DIV P BODY H1 H2 CLASS VOID 
+%token<operation> IF WHILE REASSIGNMENT
 %token<int_value> INT_LITERAL
 %token<string> STR_LITERAL
 
@@ -38,7 +38,7 @@
 %left '('
 %right ')'
 
-%type <node> STATMENTS STATMENT EXP LIST_ARG VALUES NOT_ID_NUM ARITH CND BLOCK LOOP ASSIGN OP TYPE_MASTER TYPE_SON NOT_ID_STR 
+%type <node> STATMENTS STATMENT EXP LIST_ARG VALUES NOT_ID_NUM ARITH CND BLOCK LOOP ASSIGN OP TYPE_MASTER TYPE_SON NOT_ID_STR REASSIGN 
 %type <operation> '<' '>' '(' ')' '+' '-' '/' '*' LE GE EQ NE AND OR TYPE
 %token<string> ID
 
@@ -59,14 +59,18 @@ STATMENTS   : STATMENT STATMENTS {$$ = create_node(STATEMENT_LIST, $1, $2, yylin
 STATMENT    : CND  { $$ = $1; }
             | LOOP { $$ = $1;}
             | ASSIGN { $$=$1; }
+            | REASSIGN { $$ = $1;}
             ;
 
 ASSIGN      : TYPE ID '=' VALUES ';' { $$ = create_assignment_node($1, $2, $4, yylineno); } 
             | TYPE_MASTER ID '=' TYPE_SON ';' { $$ = create_assignment_node($1, $2, $4, yylineno); } 
+          
+REASSIGN    : ID '=' VALUES ';' { $$ = create_assignment_node(REASSIGNMENT, $1, $3, yylineno);}
             ;
 
 BLOCK       : '{' STATMENTS '}'  { $$=$2; }
             |  { $$=NULL; }
+            ;
 
 CND         : IF '(' EXP ')' BLOCK {$$ = create_if_node($3, $5, NULL, yylineno);}
             ;

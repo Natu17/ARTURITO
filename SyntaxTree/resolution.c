@@ -94,7 +94,22 @@ void execute_while_node(Node *node)
 int execute_assignment_node(Node* node){
     AssignmentNode a_node = node->node_kind.assignment_node;
     char* var_name = a_node.symbol_lvalue;
-        if( search(var_name) != NULL) {
+
+    if(a_node.value_type == REASSIGNMENT){
+        if(search(var_name) == NULL){
+            // Error Handling
+            printf("ERROR INSIDE REASSIGNMENT");
+        }
+        printf("%s = ", a_node.symbol_lvalue);
+        v_val ret = execute_node(a_node.symbol_rvalue);
+        createVar(var_name, a_node.value_type, ret); 
+        
+        printf(";\n");
+        return;
+    }
+
+
+    if( search(var_name) != NULL) {
         //Error Handling
         printf("ERROR");
     }

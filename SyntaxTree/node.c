@@ -18,6 +18,8 @@ Node* create_node(int node_type, Node* left, Node* right, int line_number){
 
     node->node_kind.generic_node = generic_node;
 
+    // printf("Sons ids: left->%d, right->%d", node->node_kind.generic_node.left->node_type, node->node_kind.generic_node.right->node_type);
+
     return node;
 }
 
