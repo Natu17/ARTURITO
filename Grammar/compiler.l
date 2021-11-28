@@ -20,6 +20,8 @@ END_COMMENT         \*\/
 
 "int"                          { yylval.operation = INT; return INT; }
 "String"                       { yylval.operation = STR; return STR; }
+"double"                       { yylval.operation = DOUBLE; return DOUBLE; }
+"void"                          { yylval.operation = VOID; return VOID; }
 
 "Color"                        { yylval.operation = COLOR; return COLOR; }
 "Selector"                     { yylval.operation = SELECTOR; return SELECTOR; }

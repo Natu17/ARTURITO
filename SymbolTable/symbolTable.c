@@ -17,10 +17,10 @@ void init(){
         sTable->vars[i] = NULL;
     }
 
-    insertFun();    // insert predefined functions
+    insertBasicFun();    // insert predefined functions
 }
 
-var_t * createVar(char * name, v_type type, v_val value){ 
+void createVar(char * name, v_type type, v_val value){ 
     var_t * var = calloc(1, sizeof(var_t));
     int len = strlen(name);
     var->name = calloc(1, sizeof(len) + 1);
@@ -28,10 +28,10 @@ var_t * createVar(char * name, v_type type, v_val value){
     var->type = type;
     var->value = value;
     
-    return var;
+    insert(var);
 }
 
-fun_t * createFun(char * name, v_type retval, int argc, ...){
+void createFun(char * name, v_type retval, int argc, ...){
     fun_t * f = calloc(1, sizeof(fun_t));
     int len = strlen(name);
     f->name = calloc(1, sizeof(len) + 1);
@@ -55,49 +55,55 @@ fun_t * createFun(char * name, v_type retval, int argc, ...){
         va_end(list);
     }
 
-    return f;
+    insert((var_t *) f);
 }
 
-// void freeSymbolTable(){
-//     for(int i=0; i<sTable->size; i++){
-//         var_t * var = sTable->vars[i];
-//         if(var != NULL){
-//             freeVar(var);
-//         }
-//     }
-//     free(sTable->vars);
-//     free(sTable->count);
-//     free(sTable->size);
-//     free(sTable);
-// }
+void freeSymbolTable(){
+    for(int i=0; i<sTable->size; i++){
+        var_t * var = sTable->vars[i];
+        if(var != NULL){
+            freeVar(var);
+        }
+    }
+    free((void *) sTable->vars);
+    free((void *) &sTable->count);
+    free((void *) &sTable->size);
+    free((void *) sTable);
+}
 
-// void freeVar(var_t * var){
-//     free(var->name);
-//     free(var->type);
-//     free(var->value);
-//     free(var);
-// }
+void freeVar(var_t * var){
+    free((void *) var->name);
+    free((void *) var->type);
+    v_val value = var->value;
+    free((void *) &value.intval);
+    free((void *) &value.doubleval);
+    free((void *) &value.strval);
+    free((void *) &value.classval);
+    free((void *) &value.idval);
+    free((void *) &var->value);
+    free((void *) var);
+}
 
-// void freeFun(fun_t * f){
-//     free(f->name);
-//     free(f->argc);
-//     free(f->retval);
-//     args_t * arg = f->first;
-//     args_t * aux;
-//     while(arg != NULL){
-//         aux = arg->next;
-//         free(arg->type);
-//         free(arg);
-//         arg = aux;
-//     }
-//     free(f);
-// }
+void freeFun(fun_t * f){
+    free((void *) f->name);
+    free((void *) &f->argc);
+    free((void *) f->retval);
+    args_t * arg = f->first;
+    args_t * aux;
+    while(arg != NULL){
+        aux = arg->next;
+        free((void *) arg->type);
+        free((void *) arg);
+        arg = aux;
+    }
+    free((void *) f);
+}
 
 unsigned long hash(char * str){     // djb2
     unsigned long hash = 5381;
     int c;
 
-    while (c = *str++)
+    while ((c = *str++))
         hash = ((hash << 5) + hash) + c; 
 
     return hash;
@@ -128,8 +134,37 @@ void insert(var_t * var) {
     }
 }
 
-void insertFun(){
-    // Predefined functions
+void insertBasicFun(){
+    createFun("newSelector", V_SELECTOR, 0);
+    createFun("setColor", V_VOID, 5, V_SELECTOR, V_INT, V_INT, V_INT, V_INT);
+    createFun("setFontSize", V_VOID, 2, V_SELECTOR, V_INT);
+    createFun("setMargin", V_VOID, 2, V_SELECTOR, V_DOUBLE);
+    createFun("setMarginTop", V_VOID, 2, V_SELECTOR, V_DOUBLE);
+    createFun("setMarginBottom", V_VOID, 2, V_SELECTOR, V_DOUBLE);
+    createFun("setMarginLeft", V_VOID, 2, V_SELECTOR, V_DOUBLE);
+    createFun("setMarginRight", V_VOID, 2, V_SELECTOR, V_DOUBLE);
+    createFun("setPadding", V_VOID, 2, V_SELECTOR, V_DOUBLE);
+    createFun("setPaddingTop", V_VOID, 2, V_SELECTOR, V_DOUBLE);
+    createFun("setPaddingBottom", V_VOID, 2, V_SELECTOR, V_DOUBLE);
+    createFun("setPaddingLeft", V_VOID, 2, V_SELECTOR, V_DOUBLE);
+    createFun("setPaddingRight", V_VOID, 2, V_SELECTOR, V_DOUBLE);
+    createFun("setName", V_VOID, 2, V_SELECTOR, V_STR);
+    // Other not implemented yet
+    // newH1, newH2, newDiv, newP, newBody, newClass, newId
+    // setBackgroundColor, setWidth, setHeight, textAlign
+    /*
+    createFun("newH1", V_H1, 0);
+    createFun("newH2", V_H2, 0);
+    createFun("newDiv", V_DIV, 0);
+    createFun("newP", V_P, 0);
+    createFun("newBody", V_BODY, 0);
+    createFun("newClass", V_CLASS, 0);
+    createFun("newId", V_ID, 0);
+    createFun("setBackgroundColor", V_VOID, 5, V_SELECTOR, V_INT, V_INT, V_INT, V_INT);
+    createFun("setWidth", V_VOID, 2, V_SELECTOR, V_DOUBLE);
+    createFun("setHeight", V_VOID, 2, V_SELECTOR, V_DOUBLE);
+    createFun("textAlign", V_VOID, 2, V_SELECTOR, V_STR);
+    */
 }
 
 var_t * search(char * name){
