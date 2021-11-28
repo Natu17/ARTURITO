@@ -183,12 +183,12 @@ v_val execute_node(Node *node)
             execute_assignment_node(node);
             break;
         case H1:
-                printf("selectorInit(H1)");
-                break;
+            printf("selectorInit(H1)");
+            break;
         case SELECTOR:
-                printf("selectorInit(H1)");
-                fflush(stdout);
-                break;
+            printf("selectorInit(H1)");
+            fflush(stdout);
+            break;
         case STR:
             printf("%s", node->node_kind.str_node);
             break;
