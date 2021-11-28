@@ -27,6 +27,7 @@
 %token<operation> NEW INT_TYPE DOUBLE STR COLOR SELECTOR DIV P BODY H1 H2 CLASS VOID
 %token<operation> IF WHILE
 %token<int_value> INT_LITERAL
+%token<string> STR_LITERAL
 
 %right "="
 %left AND OR 
@@ -37,7 +38,7 @@
 %left '('
 %right ')'
 
-%type <node> STATMENTS STATMENT EXP LIST_ARG VALUES NOT_ID_NUM ARITH CND BLOCK LOOP ASSIGN OP
+%type <node> STATMENTS STATMENT EXP LIST_ARG VALUES NOT_ID_NUM ARITH CND BLOCK LOOP ASSIGN OP NOT_ID_STR 
 %type <operation> '<' '>' '(' ')' '+' '-' '/' '*' TYPE LE GE EQ NE AND OR
 %token<string> ID
 
@@ -60,7 +61,7 @@ STATMENT    : CND  { $$ = $1; }
             | ASSIGN { $$=$1; }
             ;
 
-ASSIGN      : INT_TYPE ID '=' VALUES ';' { $$ = create_assignment_node($1, $2, $4, yylineno); } 
+ASSIGN      : TYPE ID '=' VALUES ';' { $$ = create_assignment_node($1, $2, $4, yylineno); } 
 
 BLOCK       : '{' STATMENTS '}'  { $$=$2; }
             |  { $$=NULL; }
@@ -76,10 +77,18 @@ EXP         : EXP OP EXP  {$$ = create_node($2, $1, $3, yylineno);}
             ;
 
 VALUES      : NOT_ID_NUM { $$=$1; }
+            | NOT_ID_STR { $$=$1; }
             ;   
 
-NOT_ID_NUM  : INT_LITERAL  {$$ = create_int_node($1, yylineno);}
+TYPE        : INT_TYPE  {$$=$1;}
+            | STR       {$$=$1;}
             ;
+
+NOT_ID_NUM  : INT_LITERAL  {$$ = create_int_node($1, yylineno);}
+            ; 
+
+NOT_ID_STR  : STR_LITERAL  {$$ = create_str_node($1, yylineno);}
+            ; 
 
 OP          : '+' {$$=$1;}
             | '-' {$$=$1;}

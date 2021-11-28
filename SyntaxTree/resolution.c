@@ -101,7 +101,12 @@ void execute_assignment_node(Node* node){
     
     if (a_node.value_type == INT_TYPE){
         printf("int %s = ", a_node.symbol_lvalue);
-    }else{
+    } 
+    else if (a_node.value_type == STR)
+    {
+        printf("char * %s = ", a_node.symbol_lvalue);
+    }
+    else{
         printf("Unknown type %d", a_node.value_type);
     }
 
@@ -162,6 +167,9 @@ v_val execute_node(Node *node)
             v_val ret;
             ret.intval = node->node_kind.int_node;
             return ret;
+        case STR:;
+            printf("%s", node->node_kind.str_node);
+            break;
         default:
             printf("ERROR: %d", node->node_type);
         }
