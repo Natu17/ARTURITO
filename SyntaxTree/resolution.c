@@ -4,31 +4,33 @@
 #include "../SymbolTable/symbolTable.h"
 
 int execute_bool(Node* node, int op){
-    IntNode* left = (IntNode*) node->left;
-    IntNode* right = (IntNode*) node->right;
+    GenericNode gen = node->node_kind.generic_node;
+
+    int left =  gen.left->node_kind.int_node;
+    int right = gen.right->node_kind.int_node;
 
     switch(op){
         case GT:
-            printf("%d > %d", left->value, right->value);
-            return left->value > right->value;
+            printf("%d > %d", left, right);
+            return left > right;
         case LT:
-            printf("%d < %d", left->value, right->value);
-            return left->value < right->value;
+            printf("%d < %d", left, right);
+            return left < right;
         case LE:
-            printf("%d <= %d", left->value, right->value);
-            return left->value <= right->value;
+            printf("%d <= %d", left, right);
+            return left <= right;
         case GE:
-            printf("%d >= %d", left->value, right->value);
-            return left->value >= right->value;
+            printf("%d >= %d", left, right);
+            return left >= right;
         case EQ:
-            printf("%d == %d", left->value, right->value);
-            return left->value == right->value;
+            printf("%d == %d", left, right);
+            return left == right;
         case NE:
-            printf("%d != %d", left->value, right->value);
-            return left->value != right->value;
+            printf("%d != %d", left, right);
+            return left != right;
         case AND:
-            printf("%d && %d", left->value, right->value);
-            return left->value && right->value;
+            printf("%d && %d", left, right);
+            return left && right;
         
         default:
             printf("Error: Invalid operator %d", op);
@@ -37,23 +39,24 @@ int execute_bool(Node* node, int op){
 
 int execute_if_node(Node* node){
 
+    IfNode if_node = node->node_kind.if_node;
     printf("if (");
-    execute_node(node->condition);
+    execute_node(if_node.condition);
     printf(" ){\n");
-    execute_node(node->if_branch);
+    execute_node(if_node.if_branch);
     printf("}\n");
-    if(node->else_branch != NULL){
+    if(if_node.else_branch != NULL){
         printf("else{\n");
-        execute_node(node->else_branch);
+        execute_node(if_node.else_branch);
         printf("}\n");
     }
 }
 
 int execute_while_node(Node* node){
     printf("while (");
-    execute_node(node->condition);
-    printf("){\n");
-    execute_node(node->loop);
+    // execute_node(node->condition);
+    // printf("){\n");
+    // execute_node(node->loop);
     printf("}\n");
 
     // printf("DEBUG: Exited while\n");
@@ -89,8 +92,9 @@ int execute_node(Node* node){
             case OR:
                 return execute_bool(node, OR);
             case STATEMENT_LIST:
-                execute_node(node->left);
-                execute_node(node->right);
+                GenericNode gen = node->node_kind.generic_node;
+                execute_node(gen.left);
+                execute_node(gen.right);
                 break;
             case WHILE:
                 return execute_while_node(node);

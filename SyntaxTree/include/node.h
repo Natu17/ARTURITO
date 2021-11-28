@@ -8,56 +8,49 @@ typedef union SymbolValue {
 } SymbolValue;
 
 /* Generic Node */
+
+typedef struct GenericNode {
+    struct Node* left;
+    struct Node* right;
+} GenericNode;
+
+
+/* Some nodes have a special format: */
+typedef struct IfNode {
+
+    struct Node* condition;
+
+    struct Node* if_branch;
+    struct Node* else_branch;
+} IfNode;
+
+typedef struct WhileNode {
+    struct Node* condition;
+    struct Node* loop;
+} WhileNode;
+
+typedef struct AssignmentNode {
+    int value_type;
+    char* symbol_lvalue;
+    struct Node* symbol_rvalue;
+} AssignmentNode;
+
+typedef union NodeKind {
+    IfNode if_node;
+    WhileNode while_node;
+    GenericNode generic_node;
+    AssignmentNode assignment_node;
+    int int_node;
+} NodeKind;
+
 typedef struct Node {
     int node_type;
     int line_number;
 
-    struct Node* left;
-    struct Node* right;
-
-    struct Node* condition;
-    struct Node* if_branch;
-    struct Node* else_branch;
-
-    struct Node* loop;
+    NodeKind node_kind;
+    
 } Node;
 
-/* Some nodes have a special format: */
-typedef struct IfNode {
-    int line_number;
-    int node_type; // We need to include the node type because of the casting
-
-    Node* condition;
-
-    Node* if_branch;
-    Node* else_branch;
-} IfNode;
-
-typedef struct WhileNode {
-    int line_number;
-    int node_type;
-
-    Node* condition;
-    Node* loop;
-} WhileNode;
-
-typedef struct AssignmentNode {
-    int line_number;
-    int node_type;
-
-    int value_type;
-    char* symbol_lvalue;
-    Node* symbol_rvalue;
-} AssignmentNode;
-
-
-typedef struct IntNode {
-    int line_number;
-    int node_type;
-
-    int value;
-
-} IntNode;
 
 Node* create_node(int node_type, Node* left, Node* right, int line_number);
 Node* create_if_node(Node* condition, Node* if_branch, Node* else_branch, int line_number);

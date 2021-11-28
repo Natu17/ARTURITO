@@ -11,10 +11,12 @@ Node* create_node(int node_type, Node* left, Node* right, int line_number){
     node->node_type   = node_type;
     node->line_number = line_number;
 
-    node->left        = left;
-    node->right       = right;
+    GenericNode generic_node;
 
-    printf("Node type: %d \n", node->node_type);
+    generic_node.left        = left;
+    generic_node.right       = right;
+
+    node->node_kind.generic_node = generic_node;
 
     return node;
 }
@@ -27,9 +29,14 @@ Node* create_if_node(Node* condition, Node* if_branch, Node* else_branch, int li
     node->node_type   = IF;
     node->line_number = line_number;
 
-    node->condition   = condition;
-    node->if_branch   = if_branch;
-    node->else_branch = else_branch;
+    // IfNode* if_node = malloc(sizeof(*if_node));
+    IfNode if_node;
+
+    if_node.condition = condition;
+    if_node.if_branch = if_branch;
+    if_node.else_branch = else_branch;
+
+    node->node_kind.if_node = if_node;
 
     printf("Node type: %d \n", node->node_type);
     
@@ -43,44 +50,50 @@ Node* create_while_node(Node* condition, Node* loop, int line_number){
 
     node->node_type   = WHILE;
     node->line_number = line_number;
+
+    WhileNode while_node;
+
     
-    node->condition   = condition;
-    node->loop        = loop;
+    while_node.condition   = condition;
+    while_node.loop        = loop;
+
 
     printf("Node type: %d\n", node->node_type);
 
-    return (Node *) node;
+    node->node_kind.while_node = while_node;
+    return node;
 }
 
 Node* create_assignment_node(int data_type, char* lvalue, Node* rvalue, int line_number){
     printf("DEBUG: HENLO ASSIGNMENT NODE\n");
-    AssignmentNode* node = malloc(sizeof(*node));
+    // AssignmentNode* node = malloc(sizeof(*node));
 
-    printf("Lvalue: %s data type: %d", lvalue, data_type);
+    // printf("Lvalue: %s data type: %d\n", lvalue, data_type);
     
-    node->node_type      = 61;
-    node->line_number    = line_number;
-    node->symbol_lvalue  = lvalue;
+    // node->node_type      = 61;
+    // node->line_number    = line_number;
+    // node->symbol_lvalue  = lvalue;
     
-    node->value_type     = data_type;
-    node->symbol_rvalue  = rvalue;
+    // node->value_type     = data_type;
+    // node->symbol_rvalue  = rvalue;
 
-    printf("Node type: %d \n", node->node_type);
+    // printf("Node type: %d \n", node->node_type);
+    // printf("Casted type: %d \n", ((Node*) node)->node_type);
 
-    return (Node *) node;
+    // return (Node *) node;
+    return NULL;
 }
 
 Node* create_int_node(int value, int line_number){
     printf("DEBUG: HENLO INT NODE ");
-    IntNode* node = malloc(sizeof(*node));
 
+    Node* node = malloc(sizeof(*node));
     node->node_type   = INT_LITERAL;
     node->line_number = line_number;
 
-    node->value       = value;
 
-    printf("Node type: %d\n", node->node_type);
+    node->node_kind.int_node = value;
 
-    return (Node *) node;
+    return node;
 
 }
