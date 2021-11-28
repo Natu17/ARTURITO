@@ -2,6 +2,9 @@
 #include "../Test_MVP/y.tab.h"
 #include "include/resolution.h"
 #include "../SymbolTable/symbolTable.h"
+
+v_val execute_node(Node* node);
+
 void execute_bool(Node *node, int op)
 {   
     GenericNode gen = node->node_kind.generic_node;
@@ -30,7 +33,7 @@ void execute_exp(Node *node, int op){
 
     Node * left = gen.left;
     Node * right = gen.right;
-    execute_node(left);
+    v_val l = execute_node(left);
 
     switch (op)
     {
@@ -55,10 +58,10 @@ void execute_exp(Node *node, int op){
     default:
         printf("Error: Invalid operator %d", op);
     }
-      execute_node(right);
+    v_val r = execute_node(right);
 }
 
-int execute_if_node(Node *node)
+void execute_if_node(Node *node)
 {
 
     IfNode if_node = node->node_kind.if_node;
@@ -75,7 +78,7 @@ int execute_if_node(Node *node)
     }
 }
 
-int execute_while_node(Node *node)
+void execute_while_node(Node *node)
 {
     printf("while (");
     WhileNode while_node = node->node_kind.while_node;
@@ -85,12 +88,16 @@ int execute_while_node(Node *node)
     printf("}\n");
 
     // printf("DEBUG: Exited while\n");
-    return 1;
 }
 
-int execute_assignment_node(Node* node){
+void execute_assignment_node(Node* node){
     AssignmentNode a_node = node->node_kind.assignment_node;
     char* var_name = a_node.symbol_lvalue;
+
+    if( search(var_name) != NULL) {
+        //Error Handling
+        printf("ERROR");
+    }
     
     if (a_node.value_type == INT_TYPE){
         printf("int %s = ", a_node.symbol_lvalue);
@@ -98,12 +105,13 @@ int execute_assignment_node(Node* node){
         printf("Unknown type %d", a_node.value_type);
     }
 
-    execute_node(a_node.symbol_rvalue);
+    v_val ret = execute_node(a_node.symbol_rvalue);
+    createVar(var_name, a_node.value_type, ret); 
+    
     printf(";\n");
-
 }
 
-int execute_node(Node *node)
+v_val execute_node(Node *node)
 {
     if (node != NULL)
     {
@@ -139,24 +147,31 @@ int execute_node(Node *node)
             execute_bool(node, OR);
             break;
          case STATEMENT_LIST:;
-                GenericNode gen = node->node_kind.generic_node;
-                execute_node(gen.left);
-                execute_node(gen.right);
-                break;
-            case WHILE:
-                return execute_while_node(node);
-            case AS_EQ:
-                return execute_assignment_node(node);
-            case INT_LITERAL:
-                printf("%d", node->node_kind.int_node);
-                break;
-            default:
-                printf("ERROR: %d", node->node_type);
+            GenericNode gen = node->node_kind.generic_node;
+            execute_node(gen.left);
+            execute_node(gen.right);
+            break;
+        case WHILE:
+            execute_while_node(node);
+            break;
+        case AS_EQ:
+            execute_assignment_node(node);
+            break;
+        case INT_LITERAL:;
+            printf("%d", node->node_kind.int_node);
+            v_val ret;
+            ret.intval = node->node_kind.int_node;
+            return ret;
+        default:
+            printf("ERROR: %d", node->node_type);
         }
     }
+    v_val ret_null;
+    ret_null.nothing = NULL;
+    return ret_null;
 }
 
-int execute_tree(Node *node)
+void execute_tree(Node *node)
 {
     execute_node(node);
 }

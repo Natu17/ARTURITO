@@ -20,7 +20,7 @@ void init(){
     insertBasicFun();    // insert predefined functions
 }
 
-void createVar(char * name, v_type type, v_val value){ 
+void createVar(char * name, int type, v_val value){ 
     var_t * var = calloc(1, sizeof(var_t));
     int len = strlen(name);
     var->name = calloc(1, sizeof(len) + 1);
@@ -31,7 +31,7 @@ void createVar(char * name, v_type type, v_val value){
     insert(var);
 }
 
-void createFun(char * name, v_type retval, int argc, ...){
+void createFun(char * name, int retval, int argc, ...){
     fun_t * f = calloc(1, sizeof(fun_t));
     int len = strlen(name);
     f->name = calloc(1, sizeof(len) + 1);
@@ -42,12 +42,12 @@ void createFun(char * name, v_type retval, int argc, ...){
         va_list list;
         va_start(list, argc);
         args_t * arg = calloc(1, sizeof(args_t));
-        arg->type = va_arg(list, v_type);
+        arg->type = va_arg(list, int);
         args_t * aux = arg;
         int i=1;
         while(i < argc){
             aux->next = calloc(1, sizeof(args_t));
-            aux->next->type = va_arg(list, v_type);
+            aux->next->type = va_arg(list, int);
             aux = aux->next;
             i++;
         }
@@ -73,7 +73,7 @@ void freeSymbolTable(){
 
 void freeVar(var_t * var){
     free((void *) var->name);
-    free((void *) var->type);
+    free((void *) &var->type);
     v_val value = var->value;
     free((void *) &value.intval);
     free((void *) &value.doubleval);
@@ -87,12 +87,12 @@ void freeVar(var_t * var){
 void freeFun(fun_t * f){
     free((void *) f->name);
     free((void *) &f->argc);
-    free((void *) f->retval);
+    free((void *) &f->retval);
     args_t * arg = f->first;
     args_t * aux;
     while(arg != NULL){
         aux = arg->next;
-        free((void *) arg->type);
+        free((void *) &arg->type);
         free((void *) arg);
         arg = aux;
     }
@@ -122,9 +122,8 @@ void insert(var_t * var) {
         sTable->count++;
     }
     else {
-        if(strcmp(current_var->name, var->name) == 0){  // update
+        if(strcmp(current_var->name, var->name) == 0 && current_var->type == var->type){  // update
             sTable->vars[index]->value = var->value;
-            sTable->vars[index]->type = var->type;
             return;
         }
         else {
@@ -135,35 +134,35 @@ void insert(var_t * var) {
 }
 
 void insertBasicFun(){
-    createFun("newSelector", V_SELECTOR, 0);
-    createFun("setColor", V_VOID, 5, V_SELECTOR, V_INT, V_INT, V_INT, V_INT);
-    createFun("setFontSize", V_VOID, 2, V_SELECTOR, V_INT);
-    createFun("setMargin", V_VOID, 2, V_SELECTOR, V_DOUBLE);
-    createFun("setMarginTop", V_VOID, 2, V_SELECTOR, V_DOUBLE);
-    createFun("setMarginBottom", V_VOID, 2, V_SELECTOR, V_DOUBLE);
-    createFun("setMarginLeft", V_VOID, 2, V_SELECTOR, V_DOUBLE);
-    createFun("setMarginRight", V_VOID, 2, V_SELECTOR, V_DOUBLE);
-    createFun("setPadding", V_VOID, 2, V_SELECTOR, V_DOUBLE);
-    createFun("setPaddingTop", V_VOID, 2, V_SELECTOR, V_DOUBLE);
-    createFun("setPaddingBottom", V_VOID, 2, V_SELECTOR, V_DOUBLE);
-    createFun("setPaddingLeft", V_VOID, 2, V_SELECTOR, V_DOUBLE);
-    createFun("setPaddingRight", V_VOID, 2, V_SELECTOR, V_DOUBLE);
-    createFun("setName", V_VOID, 2, V_SELECTOR, V_STR);
+    createFun("newSelector", SELECTOR, 0);
+    createFun("setColor", VOID, 5, SELECTOR, INT_TYPE, INT_TYPE, INT_TYPE, INT_TYPE);
+    createFun("setFontSize", VOID, 2, SELECTOR, INT_TYPE);
+    createFun("setMargin", VOID, 2, SELECTOR, DOUBLE);
+    createFun("setMarginTop", VOID, 2, SELECTOR, DOUBLE);
+    createFun("setMarginBottom", VOID, 2, SELECTOR, DOUBLE);
+    createFun("setMarginLeft", VOID, 2, SELECTOR, DOUBLE);
+    createFun("setMarginRight", VOID, 2, SELECTOR, DOUBLE);
+    createFun("setPadding", VOID, 2, SELECTOR, DOUBLE);
+    createFun("setPaddingTop", VOID, 2, SELECTOR, DOUBLE);
+    createFun("setPaddingBottom", VOID, 2, SELECTOR, DOUBLE);
+    createFun("setPaddingLeft", VOID, 2, SELECTOR, DOUBLE);
+    createFun("setPaddingRight", VOID, 2, SELECTOR, DOUBLE);
+    createFun("setName", VOID, 2, SELECTOR, STR);
     // Other not implemented yet
     // newH1, newH2, newDiv, newP, newBody, newClass, newId
     // setBackgroundColor, setWidth, setHeight, textAlign
     /*
-    createFun("newH1", V_H1, 0);
-    createFun("newH2", V_H2, 0);
-    createFun("newDiv", V_DIV, 0);
-    createFun("newP", V_P, 0);
-    createFun("newBody", V_BODY, 0);
-    createFun("newClass", V_CLASS, 0);
-    createFun("newId", V_ID, 0);
-    createFun("setBackgroundColor", V_VOID, 5, V_SELECTOR, V_INT, V_INT, V_INT, V_INT);
-    createFun("setWidth", V_VOID, 2, V_SELECTOR, V_DOUBLE);
-    createFun("setHeight", V_VOID, 2, V_SELECTOR, V_DOUBLE);
-    createFun("textAlign", V_VOID, 2, V_SELECTOR, V_STR);
+    createFun("newH1", H1, 0);
+    createFun("newH2", H2, 0);
+    createFun("newDiv", DIV, 0);
+    createFun("newP", P, 0);
+    createFun("newBody", BODY, 0);
+    createFun("newClass", CLASS, 0);
+    createFun("newId", ID, 0);
+    createFun("setBackgroundColor", VOID, 5, SELECTOR, INT_TYPE, INT_TYPE, INT_TYPE, INT_TYPE);
+    createFun("setWidth", VOID, 2, SELECTOR, DOUBLE);
+    createFun("setHeight", VOID, 2, SELECTOR, DOUBLE);
+    createFun("textAlign", VOID, 2, SELECTOR, STR);
     */
 }
 

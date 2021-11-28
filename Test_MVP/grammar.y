@@ -24,7 +24,7 @@
 
 
 %token<string> NAME VALUE
-%token<operation> NEW INT_TYPE DOUBLE STR COLOR SELECTOR DIV P BODY H1 H2 CLASS
+%token<operation> NEW INT_TYPE DOUBLE STR COLOR SELECTOR DIV P BODY H1 H2 CLASS VOID
 %token<operation> IF WHILE
 %token<int_value> INT_LITERAL
 
