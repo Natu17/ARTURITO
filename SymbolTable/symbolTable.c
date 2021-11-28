@@ -168,7 +168,7 @@ void insertBasicFun(){
 }
 
 var_t * search(char * name){
-    int index = hash(name);
+    int index = hash(name) % CAPACITY;
     var_t * var = sTable->vars[index];
     if(var != NULL){
         if(strcmp(var->name, name) == 0){
@@ -180,7 +180,7 @@ var_t * search(char * name){
 }
 
 void delete(char * name){
-    int index = hash(name);
+    int index = hash(name) % CAPACITY;
     var_t * var = sTable->vars[index];
     if(var == NULL){
         // ERROR: Doesn't exists
