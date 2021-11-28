@@ -8,21 +8,16 @@ representa el compilador, archivo de salida (con el estado del compilador)*/
 symbolTable * sTable;
 
 void init(){
-    sTable = createSymbolTable(CAPACITY);
-}
-
-symbolTable * createSymbolTable(int size){
-    symbolTable * table = calloc(1, sizeof(symbolTable));
-    table->size = size;
-    table->count = 0;
-    table->vars = calloc(size, sizeof(var_t *));
-    for(int i=0; i<size; i++){
-        table->vars[i] = NULL;
+    sTable = calloc(1, sizeof(symbolTable));
+    sTable->size = CAPACITY;
+    sTable->count = 0;
+    sTable->vars = calloc(CAPACITY, sizeof(var_t *));
+    for(int i=0; i<CAPACITY; i++){
+        sTable->vars[i] = NULL;
     }
 
-    return table;
+    insertFun();    // insert predefined functions
 }
-
 
 var_t * createVar(char * name, v_type type, v_val value){ 
     var_t * var = calloc(1, sizeof(var_t));
@@ -49,17 +44,17 @@ fun_t * createFun(char * name, v_type retval, int argc, ...){
     return f;
 }
 
-void freeSymbolTable(symbolTable * table){
-    for(int i=0; i<table->size; i++){
-        var_t * var = table->vars[i];
+void freeSymbolTable(){
+    for(int i=0; i<sTable->size; i++){
+        var_t * var = sTable->vars[i];
         if(var != NULL){
             freeVar(var);
         }
     }
-    free(table->vars);
-    free(table->count);
-    free(table->size);
-    free(table);
+    free(sTable->vars);
+    free(sTable->count);
+    free(sTable->size);
+    free(sTable);
 }
 
 void freeVar(var_t * var){
@@ -69,18 +64,30 @@ void freeVar(var_t * var){
     free(var);
 }
 
-void freeFun(var_t * var){
-    // free fun
-}
-
-unsigned long hash(char * str){ // strings with the same length will collide, change the hash
-    unsigned long i = 0;
-    for(int j=0; str[j]; j++){
-        i += str[j];
+void freeFun(fun_t * f){
+    free(f->name);
+    free(f->argc);
+    free(f->retval);
+    args_t * arg = f->first;
+    args_t * aux;
+    while(arg != NULL){
+        aux = arg->next;
+        free(arg->type);
+        free(arg);
+        arg = aux;
     }
-    return i % CAPACITY;
+    free(f);
 }
 
+unsigned long hash(char * str){     // djb2
+    unsigned long hash = 5381;
+    int c;
+
+    while (c = *str++)
+        hash = ((hash << 5) + hash) + c; 
+
+    return hash;
+}
 
 void insert(var_t * var) {
     int index = hash(var->name);
@@ -101,14 +108,14 @@ void insert(var_t * var) {
             return;
         }
         else {
-            handleCollision(sTable, var);           // collision
+            // ERROR: Collision (quite rare for djb2 algorithm)
             return;
         }
     }
 }
 
-void handleCollision(symbolTable * table, var_t * var){
-    // handle collision
+void insertFun(){
+    // Predefined functions
 }
 
 var_t * search(char * name){
@@ -119,9 +126,26 @@ var_t * search(char * name){
             return var;
         }
     }
-
+    // ERROR: Not found
     return NULL;
 }
 
+void delete(char * name){
+    int index = hash(name);
+    var_t * var = sTable->vars[index];
+    if(var == NULL){
+        // Doesn't exists
+        return;
+    }
+    free(var);
+    sTable->vars[index] = NULL;
+    sTable->count--;
+    return;
+}
+
+
+
 // https://www.javatpoint.com/symbol-table
 // https://www.journaldev.com/35238/hash-table-in-c-plus-plus
+// http://www.cse.yorku.ca/~oz/hash.html
+// https://stackoverflow.com/questions/7666509/hash-function-for-string

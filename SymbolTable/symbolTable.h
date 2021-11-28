@@ -42,8 +42,16 @@ typedef struct function {
 
 
 // Functions
-
+void init();
+var_t * createVar(char * name, v_type type, v_val value);
+fun_t * createFun(char * name, v_type retval, int argc, ...);
+void freeSymbolTable();
+void freeVar(var_t * var);
+void freeFun(fun_t * f);
 unsigned long hash(char * str);
-
+void insert(var_t * var);
+void insertFun();
+var_t * search(char * name);
+void delete(char * name);
 
 #endif
