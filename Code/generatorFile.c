@@ -16,8 +16,9 @@ int newSelectors()
         perror("Error! memory not allocated.");
         return -1;
     }
-    return 0;
     size = 0;
+    return 0;
+    
 }
 
 void addSelectors(struct selector s)
