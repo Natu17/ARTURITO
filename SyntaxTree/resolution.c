@@ -68,6 +68,8 @@ int execute_assignment_node(AssignmentNode* node){
 
 int execute_node(Node* node){
     if ( node != NULL ){
+        printf("Node type: %d\n", node->node_type);
+
         switch(node->node_type){
             case IF:
                 return execute_if_node(node);

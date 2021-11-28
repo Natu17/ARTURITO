@@ -1,4 +1,5 @@
 %{
+    #include <strings.h>
     #include "y.tab.h"
 %}
 
@@ -7,6 +8,7 @@ DIGIT               [0-9]
 START_COMMENT       \/\*
 END_COMMENT         \*\/
 WHITESPACE          [ \t]*
+ID                  [a-zA-Z][a-zA-Z0-9_-]*
 
 %%
 [\n]			               {yylineno++;}
@@ -18,11 +20,12 @@ WHITESPACE          [ \t]*
 "and"                          { yylval.operation = AND; return AND; }
 "or"                           { yylval.operation = OR; return OR; }
 "not"                          { yylval.operation = NOT; return NOT; }
-"int"                          { yylval.operation = INT; return INT; }
+"int"                          { yylval.operation = INT_TYPE; return INT_TYPE; }
 "String"                       { yylval.operation = STR; return STR; }
 "<="                           { yylval.operation = LE; return LE; }
 ">="                           { yylval.operation = GE; return GE; }
 "=="                           { yylval.operation = EQ; return EQ; }
+{ID}                           { yylval.string = strdup(yytext); return ID; }
 {BLANK_LINE}                   { yylineno++; }
 {WHITESPACE}                  { /* Ignore */}
 {DIGIT}*                       { yylval.int_value  = atoi(yytext); return INT_LITERAL; }
