@@ -3,8 +3,8 @@
 
 // Enums
 
-typedef enum v_type {INT=0, DOUBLE, STR, SELECTOR, H1, H2, DIV, P, BODY, CLASS, ID} v_type;
-typedef enum op {ADD=0, SUB, MUL, DIV, LESS, GREATER, LESS_EQ, GREATER_EQ, EQUALS, NEQ, AND_OP, OR_OP} op;
+typedef enum v_type {V_INT=0, V_DOUBLE, V_STR, V_SELECTOR, V_H1, V_H2, V_DIV, V_P, V_BODY, V_CLASS, V_ID} v_type;
+typedef enum op {ADD_OP=0, SUB_OP, MUL_OP, DIV_OP, LESS_OP, GREATER_OP, LESS_EQ_OP, GREATER_EQ_OP, EQUALS_OP, NEQ_OP, AND_OP, OR_OP} op;
 
 // Structures
 
@@ -29,7 +29,7 @@ typedef struct symbolTable {
 } symbolTable;
 
 typedef struct args {
-    args_t * next;
+    struct args * next;
     v_type type;
 } args_t;
 

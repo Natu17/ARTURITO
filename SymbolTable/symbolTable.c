@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
+#include <stdlib.h>
 #include "symbolTable.h"
 
 #define CAPACITY 51200      // Capacity of the Hash Table
@@ -57,40 +58,40 @@ fun_t * createFun(char * name, v_type retval, int argc, ...){
     return f;
 }
 
-void freeSymbolTable(){
-    for(int i=0; i<sTable->size; i++){
-        var_t * var = sTable->vars[i];
-        if(var != NULL){
-            freeVar(var);
-        }
-    }
-    free(sTable->vars);
-    free(sTable->count);
-    free(sTable->size);
-    free(sTable);
-}
+// void freeSymbolTable(){
+//     for(int i=0; i<sTable->size; i++){
+//         var_t * var = sTable->vars[i];
+//         if(var != NULL){
+//             freeVar(var);
+//         }
+//     }
+//     free(sTable->vars);
+//     free(sTable->count);
+//     free(sTable->size);
+//     free(sTable);
+// }
 
-void freeVar(var_t * var){
-    free(var->name);
-    free(var->type);
-    free(var->value);
-    free(var);
-}
+// void freeVar(var_t * var){
+//     free(var->name);
+//     free(var->type);
+//     free(var->value);
+//     free(var);
+// }
 
-void freeFun(fun_t * f){
-    free(f->name);
-    free(f->argc);
-    free(f->retval);
-    args_t * arg = f->first;
-    args_t * aux;
-    while(arg != NULL){
-        aux = arg->next;
-        free(arg->type);
-        free(arg);
-        arg = aux;
-    }
-    free(f);
-}
+// void freeFun(fun_t * f){
+//     free(f->name);
+//     free(f->argc);
+//     free(f->retval);
+//     args_t * arg = f->first;
+//     args_t * aux;
+//     while(arg != NULL){
+//         aux = arg->next;
+//         free(arg->type);
+//         free(arg);
+//         arg = aux;
+//     }
+//     free(f);
+// }
 
 unsigned long hash(char * str){     // djb2
     unsigned long hash = 5381;

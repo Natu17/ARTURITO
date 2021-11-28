@@ -1,12 +1,15 @@
 %code requires {
         #include <stdio.h>
         #include <stdlib.h>
-        
+        #include <string.h>
+
         #include "../SyntaxTree/include/node.h"
+        #include "../SyntaxTree/include/resolution.h"
+        #include "../SymbolTable/symbolTable.h"
 
         extern int yylineno;
         int yylex();
-        void yyerror(const char *s);
+        void yyerror(Node* root, const char* msg);
 }
 
 %union{
@@ -14,14 +17,15 @@
   int operation;
   int int_value;
   Node* node;
+  Node* root_node;
 }
 
-%nonassoc STATEMENT_LIST
+%token<int_value> STATEMENT_LIST
 
 
 %token<string> NAME VALUE
-%token<operation> NEW INT DOUBLE STR COLOR SELECTOR DIV P BODY H1 H2 ID CLASS, ASSIGN
-%token<operation> IF WHILE START END
+%token<operation> NEW INT DOUBLE STR COLOR SELECTOR DIV P BODY H1 H2 ID CLASS
+%token<operation> IF WHILE
 %token<int_value> INT_LITERAL
 
 %right "="
@@ -33,8 +37,10 @@
 %left '('
 %right ')'
 
-%type <node> STATMENTS STATMENT EXP VALUES NOT_ID_NUM ARITH CND BLOCK LOOP
-%type <operation> '<' '>' '(' ')' '+' '-' '/' '*'  LE GE EQ NE AND OR
+%type <node> STATMENTS STATMENT EXP LIST_ARG VALUES NOT_ID_NUM ARITH CND BLOCK LOOP ASSIGN
+%type <operation> '<' '>' '(' ')' '+' '-' '/' '*' TYPE LE GE EQ NE AND OR
+
+%parse-param {Node* root}
 
 %start PROGRAM
 
@@ -42,7 +48,7 @@
 
 PROGRAM     : MAIN { printf("Finished Parsing =)\n"); }
 
-MAIN        : STATMENTS {}
+MAIN        : STATMENTS {memcpy(root, $1, sizeof(*root));}
 
 STATMENTS   : STATMENT STATMENTS {$$ = create_node(STATEMENT_LIST, $1, $2, yylineno); }
             |      { $$ = NULL; }
@@ -51,6 +57,8 @@ STATMENTS   : STATMENT STATMENTS {$$ = create_node(STATEMENT_LIST, $1, $2, yylin
 STATMENT    : CND  { $$ = $1; }
             | LOOP { $$ = $1;}
             ;
+
+ASSIGN      : TYPE VALUE '=' VALUES { $$ = create_assignment_node($1, $2, $4, yylineno); } 
 
 BLOCK       : '{' STATMENTS '}'  { $$=$2; }
             |  { $$=NULL; }
@@ -70,28 +78,39 @@ VALUES      : NOT_ID_NUM { $$=$1; }
 NOT_ID_NUM  : INT_LITERAL  {$$ = create_int_node($1, yylineno);}
             ;
 
-ARITH       : NOT_ID_NUM '>' NOT_ID_NUM   { $$ = create_node($2, $1, $3, yylineno); }
-            | NOT_ID_NUM '<' NOT_ID_NUM   { $$ = create_node($2, $1, $3, yylineno); }
-            | NOT_ID_NUM '+' NOT_ID_NUM   { $$ = create_node($2, $1, $3, yylineno);}
-            | NOT_ID_NUM '-' NOT_ID_NUM   { $$ = create_node($2, $1, $3, yylineno);}
-            | NOT_ID_NUM '*' NOT_ID_NUM   { $$ = create_node($2, $1, $3, yylineno);}
-            | NOT_ID_NUM '/' NOT_ID_NUM   { $$ = create_node($2, $1, $3, yylineno);}
+ARITH       : NOT_ID_NUM '>' NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno); }
+            | NOT_ID_NUM '<' NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno); }
+            | NOT_ID_NUM '+' NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno); }
+            | NOT_ID_NUM '-' NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno); }
+            | NOT_ID_NUM '*' NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno); }
+            | NOT_ID_NUM '/' NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno); }
             | NOT_ID_NUM LE NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno);}
             | NOT_ID_NUM GE NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno);}
             | NOT_ID_NUM EQ NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno);}
             | NOT_ID_NUM NE NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno);}
-            | NOT_ID_NUM AND NOT_ID_NUM { $$ = create_node($2, $1, $3, yylineno);}
-            | NOT_ID_NUM OR NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno);}
+            ;
+
+TYPE        : INT       { $$=$1; }
+            | DOUBLE    { $$=$1; }
+            | STR       { $$=$1; }
             ;
             
 %%
 
-/* int yywrap(){
-        return 1;
-}  */
+void yyerror(Node* root, const char* msg) {
+    fprintf(stderr, "%s\n", msg);
+}
 
 int main() {
-    printf("Hello world\n");
-    int ret = yyparse();
+
+    Node root;
+    int ret = yyparse(&root);
+    
+    /* init_symbol_table(); */
+    init();
+    printf("Finished parsing \n");
+
+    printf("Executing tree \n");
+    execute_tree(&root);
     exit(0);
 } 

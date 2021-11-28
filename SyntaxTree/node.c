@@ -40,7 +40,7 @@ Node* create_while_node(Node* condition, Node* loop, int line_number){
     printf("DEBUG: HENLO WHILE NODE ");
     // WhileNode* node = malloc(sizeof(*node));
     Node* node = malloc(sizeof(*node));
-    
+
     node->node_type   = WHILE;
     node->line_number = line_number;
     
@@ -52,13 +52,14 @@ Node* create_while_node(Node* condition, Node* loop, int line_number){
     return (Node *) node;
 }
 
-Node* create_assignment_node(char* lvalue, Node* rvalue, int line_number){
+Node* create_assignment_node(int data_type, char* lvalue, Node* rvalue, int line_number){
     printf("DEBUG: HENLO ASSIGNMENT NODE ");
     AssignmentNode* node = malloc(sizeof(*node));
 
-    node->node_type      = ASSIGN;
+    node->node_type      = 61;
     node->line_number    = line_number;
     node->symbol_lvalue  = lvalue;
+    
     node->symbol_rvalue  = rvalue;
 
     printf("Node type: %d \n", node->node_type);
