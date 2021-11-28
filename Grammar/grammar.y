@@ -72,7 +72,7 @@ ARG         : EXP {return 0;}
 LOOP        : WHILE '(' EXP ')' {return 0;} '{' STATMENTS '}' {return 0;} {create_while_node($3, $6, yylineno);}
             ;
 
-CND         : IF '(' EXP ')' {return 0;} '{' STATMENTS '}' {return 0;} {create_if_node($3, $6, NULL, yylineno);}
+CND         : IF '(' EXP {return 0;} '{' STATMENTS '}' {return 0;} {create_if_node($3, $6, NULL, yylineno);}
             ;
 
 EXP         : EXP OP EXP  {return 0;}

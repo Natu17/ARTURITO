@@ -37,7 +37,7 @@
 %left '('
 %right ')'
 
-%type <node> STATMENTS STATMENT EXP LIST_ARG VALUES NOT_ID_NUM ARITH CND BLOCK LOOP ASSIGN
+%type <node> STATMENTS STATMENT EXP LIST_ARG VALUES NOT_ID_NUM ARITH CND BLOCK LOOP ASSIGN OP
 %type <operation> '<' '>' '(' ')' '+' '-' '/' '*' TYPE LE GE EQ NE AND OR
 %token<string> ID
 
@@ -70,8 +70,9 @@ CND         : IF '(' EXP ')' BLOCK {$$ = create_if_node($3, $5, NULL, yylineno);
 
 LOOP        : WHILE '(' EXP ')' BLOCK {$$ = create_while_node($3, $5, yylineno);}
 
-EXP         : ARITH { $$ = $1;}
-            | VALUES      {return 0;}
+EXP         : EXP OP EXP  {$$ = create_node($2, $1, $3, yylineno);}
+            | NOT EXP     {return 0;}
+            | VALUES      {$$=$1;}
             ;
 
 VALUES      : NOT_ID_NUM { $$=$1; }
@@ -80,16 +81,18 @@ VALUES      : NOT_ID_NUM { $$=$1; }
 NOT_ID_NUM  : INT_LITERAL  {$$ = create_int_node($1, yylineno);}
             ;
 
-ARITH       : NOT_ID_NUM '>' NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno); }
-            | NOT_ID_NUM '<' NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno); }
-            | NOT_ID_NUM '+' NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno); }
-            | NOT_ID_NUM '-' NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno); }
-            | NOT_ID_NUM '*' NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno); }
-            | NOT_ID_NUM '/' NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno); }
-            | NOT_ID_NUM LE NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno);}
-            | NOT_ID_NUM GE NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno);}
-            | NOT_ID_NUM EQ NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno);}
-            | NOT_ID_NUM NE NOT_ID_NUM  { $$ = create_node($2, $1, $3, yylineno);}
+OP          : '+' {$$=$1;}
+            | '-' {$$=$1;}
+            | '*' {$$=$1;}
+            | '/' {$$=$1;}
+            | '<' {$$=$1;}
+            | '>' {$$=$1;}
+            | LE  {$$=$1;}
+            | GE  {$$=$1;}
+            | EQ  {$$=$1;}
+            | NE  {$$=$1;}
+            | AND {$$=$1;}
+            | OR  {$$=$1;}
             ;
 
             

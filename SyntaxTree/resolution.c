@@ -26,6 +26,9 @@ int execute_bool(Node* node, int op){
         case NE:
             printf("%d != %d", left->value, right->value);
             return left->value != right->value;
+        case AND:
+            printf("%d && %d", left->value, right->value);
+            return left->value && right->value;
         
         default:
             printf("Error: Invalid operator %d", op);
@@ -81,6 +84,10 @@ int execute_node(Node* node){
                 return execute_bool(node, EQ);
             case NE:
                 return execute_bool(node, NE);
+            case AND:
+                return execute_bool(node, AND);
+            case OR:
+                return execute_bool(node, OR);
             case STATEMENT_LIST:
                 execute_node(node->left);
                 execute_node(node->right);
