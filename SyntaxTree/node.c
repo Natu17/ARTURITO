@@ -66,22 +66,21 @@ Node* create_while_node(Node* condition, Node* loop, int line_number){
 
 Node* create_assignment_node(int data_type, char* lvalue, Node* rvalue, int line_number){
     printf("DEBUG: HENLO ASSIGNMENT NODE\n");
-    // AssignmentNode* node = malloc(sizeof(*node));
+    Node* node = malloc(sizeof(*node));
 
-    // printf("Lvalue: %s data type: %d\n", lvalue, data_type);
-    
-    // node->node_type      = 61;
-    // node->line_number    = line_number;
-    // node->symbol_lvalue  = lvalue;
-    
-    // node->value_type     = data_type;
-    // node->symbol_rvalue  = rvalue;
+    node->node_type = 61;
+    node->line_number = line_number;
 
-    // printf("Node type: %d \n", node->node_type);
-    // printf("Casted type: %d \n", ((Node*) node)->node_type);
+    AssignmentNode a_node;
+
+    a_node.value_type = data_type;
+    a_node.symbol_lvalue = lvalue;
+    a_node.symbol_rvalue = rvalue;
+    
+    node->node_kind.assignment_node = a_node;
 
     // return (Node *) node;
-    return NULL;
+    return node;
 }
 
 Node* create_int_node(int value, int line_number){

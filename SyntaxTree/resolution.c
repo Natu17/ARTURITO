@@ -64,7 +64,7 @@ int execute_if_node(Node *node)
     IfNode if_node = node->node_kind.if_node;
     printf("if (");
     execute_node(if_node.condition);
-    printf(" ){\n");
+    printf(" ){\n\t");
     execute_node(if_node.if_branch);
     printf("}\n");
     if (if_node.else_branch != NULL)
@@ -78,19 +78,29 @@ int execute_if_node(Node *node)
 int execute_while_node(Node *node)
 {
     printf("while (");
-    // execute_node(node->condition);
-    // printf("){\n");
-    // execute_node(node->loop);
+    WhileNode while_node = node->node_kind.while_node;
+    execute_node(while_node.condition);
+    printf("){\n\t");
+    execute_node(while_node.loop);
     printf("}\n");
 
     // printf("DEBUG: Exited while\n");
     return 1;
 }
 
-int execute_assignment_node(AssignmentNode *node)
-{
-    char *var_name = node->symbol_lvalue;
-    // printf("INSERTING %s", var_name);
+int execute_assignment_node(Node* node){
+    AssignmentNode a_node = node->node_kind.assignment_node;
+    char* var_name = a_node.symbol_lvalue;
+    
+    if (a_node.value_type == INT_TYPE){
+        printf("int %s = ", a_node.symbol_lvalue);
+    }else{
+        printf("Unknown type %d", a_node.value_type);
+    }
+
+    execute_node(a_node.symbol_rvalue);
+    printf(";\n");
+
 }
 
 int execute_node(Node *node)
@@ -133,15 +143,15 @@ int execute_node(Node *node)
                 execute_node(gen.left);
                 execute_node(gen.right);
                 break;
-        case WHILE:
-            return execute_while_node(node);
-        case AS_EQ:
-            return execute_assignment_node((AssignmentNode *)node);
-        case INT_LITERAL:
+            case WHILE:
+                return execute_while_node(node);
+            case AS_EQ:
+                return execute_assignment_node(node);
+            case INT_LITERAL:
                 printf("%d", node->node_kind.int_node);
                 break;
-        default:
-            printf("ERROR: %d", node->node_type);
+            default:
+                printf("ERROR: %d", node->node_type);
         }
     }
 }

@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include "symbolTable.h"
 
-#define CAPACITY 51200      // Capacity of the Hash Table
+#define CAPACITY 5000      // Capacity of the Hash Table
 
 symbolTable * sTable;
 
@@ -110,7 +110,7 @@ unsigned long hash(char * str){     // djb2
 }
 
 void insert(var_t * var) {
-    int index = hash(var->name);
+    int index = hash(var->name) % CAPACITY;
     var_t * current_var = sTable->vars[index];
     if(current_var == NULL){                    // insert
         if(sTable->count == sTable->size){
