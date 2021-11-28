@@ -90,32 +90,33 @@ void execute_while_node(Node *node)
     // printf("DEBUG: Exited while\n");
 }
 
-void execute_assignment_node(Node* node){
+
+int execute_assignment_node(Node* node){
     AssignmentNode a_node = node->node_kind.assignment_node;
     char* var_name = a_node.symbol_lvalue;
+     switch (a_node.value_type)
+        {
+        case INT_TYPE:
+            printf("int %s = ", a_node.symbol_lvalue);
+            break;
+        case SELECTOR:
+            printf("struct selector *%s = ", a_node.symbol_lvalue);
+            fflush(stdout);
+            break;
+        default: printf("Unknown type %d", a_node.value_type);
+        }
+         
 
-    if( search(var_name) != NULL) {
-        //Error Handling
-        printf("ERROR");
-    }
-    
-    if (a_node.value_type == INT_TYPE){
-        printf("int %s = ", a_node.symbol_lvalue);
-    }else{
-        printf("Unknown type %d", a_node.value_type);
-    }
-
-    v_val ret = execute_node(a_node.symbol_rvalue);
-    createVar(var_name, a_node.value_type, ret); 
-    
+    execute_node(a_node.symbol_rvalue);
     printf(";\n");
+
 }
 
 v_val execute_node(Node *node)
 {
+
     if (node != NULL)
     {
-        // printf("Node type: %d\n", node->node_type);
 
         switch (node->node_type)
         {
@@ -157,11 +158,19 @@ v_val execute_node(Node *node)
         case AS_EQ:
             execute_assignment_node(node);
             break;
+        case H1:
+                printf("selectorInit(H1)");
+                break;
+        case SELECTOR:
+                printf("selectorInit(H1)");
+                fflush(stdout);
+                break;
         case INT_LITERAL:;
             printf("%d", node->node_kind.int_node);
             v_val ret;
             ret.intval = node->node_kind.int_node;
             return ret;
+      
         default:
             printf("ERROR: %d", node->node_type);
         }
@@ -173,5 +182,8 @@ v_val execute_node(Node *node)
 
 void execute_tree(Node *node)
 {
+    
     execute_node(node);
 }
+
+

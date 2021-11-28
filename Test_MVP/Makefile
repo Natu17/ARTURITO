@@ -5,7 +5,7 @@ all: css_wizard
 	@echo "COMPILED TEST_MVP"
 
 y.tab.c y.tab.h: grammar.y
-	yacc -d grammar.y
+	yacc -d grammar.y --debug
 
 lex.yy.c: y.tab.h
 	lex compiler.l

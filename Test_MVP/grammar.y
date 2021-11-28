@@ -24,7 +24,7 @@
 
 
 %token<string> NAME VALUE
-%token<operation> NEW INT_TYPE DOUBLE STR COLOR SELECTOR DIV P BODY H1 H2 CLASS VOID
+%token<operation> NEW INT_TYPE DOUBLE STR SELECTOR DIV P BODY H1 H2 CLASS VOID 
 %token<operation> IF WHILE
 %token<int_value> INT_LITERAL
 
@@ -37,8 +37,8 @@
 %left '('
 %right ')'
 
-%type <node> STATMENTS STATMENT EXP LIST_ARG VALUES NOT_ID_NUM ARITH CND BLOCK LOOP ASSIGN OP
-%type <operation> '<' '>' '(' ')' '+' '-' '/' '*' TYPE LE GE EQ NE AND OR
+%type <node> STATMENTS STATMENT EXP LIST_ARG VALUES NOT_ID_NUM ARITH CND BLOCK LOOP ASSIGN OP TYPE_MASTER TYPE_SON
+%type <operation> '<' '>' '(' ')' '+' '-' '/' '*' LE GE EQ NE AND OR 
 %token<string> ID
 
 %parse-param {Node* root}
@@ -47,7 +47,7 @@
 
 %%
 
-PROGRAM     : MAIN { printf("Finished Parsing =)\n"); }
+PROGRAM     : MAIN { printf("Finished Parsing :)\n"); }
 
 MAIN        : STATMENTS {memcpy(root, $1, sizeof(*root));}
 
@@ -61,6 +61,8 @@ STATMENT    : CND  { $$ = $1; }
             ;
 
 ASSIGN      : INT_TYPE ID '=' VALUES ';' { $$ = create_assignment_node($1, $2, $4, yylineno); } 
+            | TYPE_MASTER ID '=' TYPE_SON ';' { $$ = create_assignment_node($1, $2, $4, yylineno); } 
+            ;
 
 BLOCK       : '{' STATMENTS '}'  { $$=$2; }
             |  { $$=NULL; }
@@ -95,6 +97,18 @@ OP          : '+' {$$=$1;}
             | OR  {$$=$1;}
             ;
 
+
+TYPE_MASTER : SELECTOR 
+            ;
+
+TYPE_SON    : H1  {$$ = create_especial_node($1, yylineno);}
+            | H2 
+            | DIV  
+            | P
+            | BODY
+            | CLASS
+            | ID 
+            ;
             
 %%
 

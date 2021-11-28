@@ -21,6 +21,8 @@ ID                  [a-zA-Z][a-zA-Z0-9_-]*
 "or"                           { yylval.operation = OR; return OR; }
 "not"                          { yylval.operation = NOT; return NOT; }
 "int"                          { yylval.operation = INT_TYPE; return INT_TYPE; }
+"H1"                           { yylval.operation = H1; return H1; }
+"Selector"                     { yylval.operation = SELECTOR; return SELECTOR; }
 "String"                       { yylval.operation = STR; return STR; }
 "<="                           { yylval.operation = LE; return LE; }
 ">="                           { yylval.operation = GE; return GE; }

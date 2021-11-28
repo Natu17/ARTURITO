@@ -83,6 +83,19 @@ Node* create_assignment_node(int data_type, char* lvalue, Node* rvalue, int line
     return node;
 }
 
+Node* create_especial_node(int value, int line_number){
+    printf("DEBUG: HENLO ESPECIAL NODE ");
+
+    Node* node = malloc(sizeof(*node));
+    node->node_type   = value;
+    node->line_number = line_number;
+    return node;
+
+}
+
+
+
+
 Node* create_int_node(int value, int line_number){
     printf("DEBUG: HENLO INT NODE ");
 
@@ -96,3 +109,4 @@ Node* create_int_node(int value, int line_number){
     return node;
 
 }
+

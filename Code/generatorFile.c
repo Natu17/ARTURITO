@@ -103,8 +103,14 @@ int main(int argc, char const *argv[])
 {
 
     FILE *file = createCssFile();
+
+
+
     struct selector *s = selectorInit(ID);
     setName("hola", s);
+
+
+    
     setColor(0xCB905C, s);
     setMarginRight(10, s);
     setPadding(10, s);

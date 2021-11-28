@@ -57,5 +57,6 @@ Node* create_if_node(Node* condition, Node* if_branch, Node* else_branch, int li
 Node* create_while_node(Node* condition, Node* loop, int line_number);
 Node* create_assignment_node(int data_type, char* lvalue, Node* rvalue, int line_number);
 Node* create_int_node(int value, int line_number);
+Node* create_especial_node(int value, int line_number);
 
 #endif
