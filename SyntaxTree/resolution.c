@@ -94,6 +94,11 @@ void execute_while_node(Node *node)
 int execute_assignment_node(Node* node){
     AssignmentNode a_node = node->node_kind.assignment_node;
     char* var_name = a_node.symbol_lvalue;
+        if( search(var_name) != NULL) {
+        //Error Handling
+        printf("ERROR");
+    }
+    
      switch (a_node.value_type)
         {
         case INT_TYPE:
@@ -103,11 +108,15 @@ int execute_assignment_node(Node* node){
             printf("struct selector *%s = ", a_node.symbol_lvalue);
             fflush(stdout);
             break;
+        case  STR:
+            printf("char * %s = ", a_node.symbol_lvalue);
+            break;
         default: printf("Unknown type %d", a_node.value_type);
         }
          
-
-    execute_node(a_node.symbol_rvalue);
+    v_val ret = execute_node(a_node.symbol_rvalue);
+    createVar(var_name, a_node.value_type, ret); 
+    
     printf(";\n");
 
 }
@@ -165,12 +174,14 @@ v_val execute_node(Node *node)
                 printf("selectorInit(H1)");
                 fflush(stdout);
                 break;
+        case STR:
+            printf("%s", node->node_kind.str_node);
+            break;
         case INT_LITERAL:;
             printf("%d", node->node_kind.int_node);
             v_val ret;
             ret.intval = node->node_kind.int_node;
             return ret;
-      
         default:
             printf("ERROR: %d", node->node_type);
         }

@@ -9,6 +9,7 @@ START_COMMENT       \/\*
 END_COMMENT         \*\/
 WHITESPACE          [ \t]*
 ID                  [a-zA-Z][a-zA-Z0-9_-]*
+WORD                 \"[a-zA-Z0-9_-]*\"
 
 %%
 [\n]			               {yylineno++;}
@@ -28,6 +29,7 @@ ID                  [a-zA-Z][a-zA-Z0-9_-]*
 ">="                           { yylval.operation = GE; return GE; }
 "=="                           { yylval.operation = EQ; return EQ; }
 {ID}                           { yylval.string = strdup(yytext); return ID; }
+{WORD}                         { yylval.string = strdup(yytext); return STR_LITERAL; }
 {BLANK_LINE}                   { yylineno++; }
 {WHITESPACE}                  { /* Ignore */}
 {DIGIT}*                       { yylval.int_value  = atoi(yytext); return INT_LITERAL; }

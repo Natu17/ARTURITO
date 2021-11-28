@@ -41,6 +41,7 @@ typedef union NodeKind {
     GenericNode generic_node;
     AssignmentNode assignment_node;
     int int_node;
+    char * str_node;
 } NodeKind;
 
 typedef struct Node {
@@ -58,5 +59,6 @@ Node* create_while_node(Node* condition, Node* loop, int line_number);
 Node* create_assignment_node(int data_type, char* lvalue, Node* rvalue, int line_number);
 Node* create_int_node(int value, int line_number);
 Node* create_especial_node(int value, int line_number);
+Node* create_str_node(char * value, int line_number);
 
 #endif
