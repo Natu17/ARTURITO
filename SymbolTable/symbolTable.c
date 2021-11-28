@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include "symbolTable.h"
 
-#define CAPACITY 50000      // Capacity of the Hash Table
+#define CAPACITY 51200      // Capacity of the Hash Table
 
 symbolTable * sTable;
 

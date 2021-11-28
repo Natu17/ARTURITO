@@ -41,7 +41,7 @@ void writeSelectors(FILE *cssFile)
 {
     for (size_t i = 0; i < size; i++)
     {
-        fputs(setType(selectors[i]), cssFile);
+        setType(selectors[i],cssFile);
         fputs("{\n", cssFile);
         fprintf(cssFile, "\tcolor: #%x;\n", selectors[i].color);
         if (selectors[i].fontSize != DEF_FONT_SIZE)
@@ -68,11 +68,12 @@ void writeSelectors(FILE *cssFile)
     }
 }
 
-const char *setType(struct selector s)
+void setType(struct selector s, FILE * cssFile)
 {
     if (s.type < CLASS)
     {
-        return types[s.type];
+        fputs(types[s.type], cssFile);
+        return;
     }
     else
     {
@@ -86,7 +87,9 @@ const char *setType(struct selector s)
             string[0] = '.';
         }
         strcat(string, s.name);
-        return string;
+        fputs(string, cssFile);
+        free(string);
+        return;
     }
 }
 

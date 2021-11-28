@@ -10,6 +10,6 @@ int newSelectors();
 void addSelectors(struct selector s);
 FILE *createCssFile();
 void writeSelectors(FILE *cssFile);
-const char * setType(struct selector s);
+void setType(struct selector s, FILE * cssFile);
 
 #endif
