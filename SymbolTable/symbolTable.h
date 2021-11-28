@@ -8,7 +8,7 @@ typedef enum op {ADD=0, SUB, MUL, DIV, LESS, GREATER, LESS_EQ, GREATER_EQ, EQUAL
 
 // Structures
 
-typedef union v_value { // possible values: int, double, str, class, id
+typedef union v_value {
     int intval;
     double doubleval;
     char * strval;

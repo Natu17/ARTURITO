@@ -1,5 +1,5 @@
-/*variable o contantes o nombfre de funciones que vamos definiendo en el programa de entrada
-representa el compilador, archivo de salida (con el estado del compilador)*/
+#include <stdio.h>
+#include <stdarg.h>
 #include <string.h>
 #include "symbolTable.h"
 
@@ -38,7 +38,20 @@ fun_t * createFun(char * name, v_type retval, int argc, ...){
     f->retval = retval;
     f->argc = argc;
     if(argc > 0){
-        // add args
+        va_list list;
+        va_start(list, argc);
+        args_t * arg = calloc(1, sizeof(args_t));
+        arg->type = va_arg(list, v_type);
+        args_t * aux = arg;
+        int i=1;
+        while(i < argc){
+            aux->next = calloc(1, sizeof(args_t));
+            aux->next->type = va_arg(list, v_type);
+            aux = aux->next;
+            i++;
+        }
+        f->first = arg;
+        va_end(list);
     }
 
     return f;
@@ -94,7 +107,7 @@ void insert(var_t * var) {
     var_t * current_var = sTable->vars[index];
     if(current_var == NULL){                    // insert
         if(sTable->count == sTable->size){
-            // Error: Hash Table is full
+            // ERROR: Hash Table is full
             free(var);
             return;
         }
@@ -134,7 +147,7 @@ void delete(char * name){
     int index = hash(name);
     var_t * var = sTable->vars[index];
     if(var == NULL){
-        // Doesn't exists
+        // ERROR: Doesn't exists
         return;
     }
     free(var);
@@ -149,3 +162,4 @@ void delete(char * name){
 // https://www.journaldev.com/35238/hash-table-in-c-plus-plus
 // http://www.cse.yorku.ca/~oz/hash.html
 // https://stackoverflow.com/questions/7666509/hash-function-for-string
+// https://www.tutorialspoint.com/cprogramming/c_variable_arguments.htm
