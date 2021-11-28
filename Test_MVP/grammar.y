@@ -105,7 +105,7 @@ int main() {
     int ret = yyparse(&root);
     
     /* init_symbol_table(); */
-    init();
+    /* init(); */
     printf("Finished parsing \n");
 
     printf("Executing tree \n");

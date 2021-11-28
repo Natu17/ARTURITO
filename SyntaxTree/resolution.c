@@ -9,16 +9,22 @@ int execute_bool(Node* node, int op){
 
     switch(op){
         case GT:
+            printf("%d > %d", left->value, right->value);
             return left->value > right->value;
         case LT:
+            printf("%d < %d", left->value, right->value);
             return left->value < right->value;
         case LE:
+            printf("%d <= %d", left->value, right->value);
             return left->value <= right->value;
         case GE:
+            printf("%d >= %d", left->value, right->value);
             return left->value >= right->value;
         case EQ:
+            printf("%d == %d", left->value, right->value);
             return left->value == right->value;
         case NE:
+            printf("%d != %d", left->value, right->value);
             return left->value != right->value;
         
         default:
@@ -28,47 +34,37 @@ int execute_bool(Node* node, int op){
 
 int execute_if_node(Node* node){
 
-    int ret = execute_node(node->condition);
-
-    if (ret){
-        printf("DEBUG: ENTERED IF\n");
-        // v_val v;
-        // v.intval = 200;
-        // var_t* my_var = createVar("hello", V_INT, v);
-        // insert(my_var);
-
-        // var_t* ret = search("hello");
-
-        // printf("VALUE: %d\n", ret->value.intval);
-        return execute_node(node->if_branch);
+    printf("if (");
+    execute_node(node->condition);
+    printf(" ){\n");
+    execute_node(node->if_branch);
+    printf("}\n");
+    if(node->else_branch != NULL){
+        printf("else{\n");
+        execute_node(node->else_branch);
+        printf("}\n");
     }
-
-    printf("DEBUG: NOT ENTERED IF");
-    return execute_node(node->else_branch);
 }
 
 int execute_while_node(Node* node){
-    int ret = execute_node(node->condition);
+    printf("while (");
+    execute_node(node->condition);
+    printf("){\n");
+    execute_node(node->loop);
+    printf("}\n");
 
-    printf("RET->%d ", ret);
-    while(ret){
-        printf("DEBUG: Entered while\n");
-        execute_node(node->loop);
-        ret = execute_node(node->condition);
-    }
-
-    printf("DEBUG: Exited while\n");
+    // printf("DEBUG: Exited while\n");
     return 1;
 }
 
 int execute_assignment_node(AssignmentNode* node){
     char* var_name = node->symbol_lvalue;
-    printf("INSERTING %s", var_name);
+    // printf("INSERTING %s", var_name);
 }
 
 int execute_node(Node* node){
     if ( node != NULL ){
-        printf("Node type: %d\n", node->node_type);
+        // printf("Node type: %d\n", node->node_type);
 
         switch(node->node_type){
             case IF:
