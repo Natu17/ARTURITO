@@ -93,9 +93,9 @@ TYPE        : INT       { $$=$1; }
             
 %%
 
-/* int yywrap(){
-        return 1;
-}  */
+void yyerror(Node* root, const char* msg) {
+    fprintf(stderr, "%s\n", msg);
+}
 
 int main() {
     printf("Hello world\n");

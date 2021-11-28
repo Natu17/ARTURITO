@@ -11,7 +11,7 @@ lex.yy.c: y.tab.h
 	lex compiler.l
 
 css_wizard: lex.yy.c y.tab.c y.tab.h
-	gcc -o parser ${C_FILES} -ly
+	gcc -o parser ${C_FILES}
 
 clean:
 	rm -f lex.yy.c y.tab.c y.tab.h parser parser_debug
