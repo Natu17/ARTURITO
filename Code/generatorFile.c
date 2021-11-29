@@ -3,6 +3,7 @@
 #include <string.h>
 #include "include/selector.h"
 #include "include/generatorFile.h"
+#include "../ErrorHandling/errorHandling.h"
 #define MAX 4096
 
 struct selector *selectors;
@@ -13,7 +14,7 @@ int newSelectors()
     selectors = malloc(MAX * sizeof(struct selector));
     if (selectors == NULL)
     {
-        perror("Error! memory not allocated.");
+        memoryAllocationErr();
         return -1;
     }
     size = 0;

@@ -1,6 +1,6 @@
 # taken from https://github.com/meyerd/flex-bison-example/blob/master/Makefile
 
-C_FILES=lex.yy.c y.tab.c ../SyntaxTree/node.c ../SyntaxTree/resolution.c ../SymbolTable/symbolTable.c
+C_FILES=lex.yy.c y.tab.c ../SyntaxTree/node.c ../SyntaxTree/resolution.c ../SymbolTable/symbolTable.c ../ErrorHandling/errorHandling.c
 all: css_wizard
 	@echo "COMPILED TEST_MVP"
 

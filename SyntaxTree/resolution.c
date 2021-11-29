@@ -1,7 +1,9 @@
+#include "../ErrorHandling/errorHandling.h"
 #include "include/node.h"
 #include "../Test_MVP/y.tab.h"
 #include "include/resolution.h"
 #include "../SymbolTable/symbolTable.h"
+
 
 v_val execute_node(Node* node);
 
@@ -56,7 +58,7 @@ void execute_exp(Node *node, int op){
         printf("!=");
         break;
     default:
-        printf("Error: Invalid operator %d", op);
+        invalidOperatorErr(op);
     }
     v_val r = execute_node(right);
 }
@@ -97,8 +99,7 @@ int execute_assignment_node(Node* node){
 
     if(a_node.value_type == REASSIGNMENT){
         if(search(var_name) == NULL){
-            // Error Handling
-            printf("ERROR INSIDE REASSIGNMENT");
+            reassignmentErr();
         }
         printf("%s = ", a_node.symbol_lvalue);
         v_val ret = execute_node(a_node.symbol_rvalue);
@@ -110,8 +111,7 @@ int execute_assignment_node(Node* node){
 
 
     if( search(var_name) != NULL) {
-        //Error Handling
-        printf("ERROR");
+        variableExistsErr();
     }
     
      switch (a_node.value_type)
@@ -226,7 +226,7 @@ v_val execute_node(Node *node)
             reti.intval = node->node_kind.double_node;
             return reti;
         default:
-            printf("ERROR: %d", node->node_type);
+            invalidNodeTypeErr(node->node_type);
         }
     }
     v_val ret_null;

@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "symbolTable.h"
+#include "../ErrorHandling/errorHandling.h"
 
 #define CAPACITY 5000      // Capacity of the Hash Table
 
@@ -114,7 +115,7 @@ void insert(var_t * var) {
     var_t * current_var = sTable->vars[index];
     if(current_var == NULL){                    // insert
         if(sTable->count == sTable->size){
-            // ERROR: Hash Table is full
+            fullHashTableErr();
             free(var);
             return;
         }
@@ -127,7 +128,7 @@ void insert(var_t * var) {
             return;
         }
         else {
-            // ERROR: Collision (quite rare for djb2 algorithm)
+            collisionErr();     // Collisions are quite rare for djb2 algorithm
             return;
         }
     }
@@ -174,7 +175,6 @@ var_t * search(char * name){
             return var;
         }
     }
-    // ERROR: Not found
     return NULL;
 }
 
@@ -182,7 +182,6 @@ void delete(char * name){
     int index = hash(name) % CAPACITY;
     var_t * var = sTable->vars[index];
     if(var == NULL){
-        // ERROR: Doesn't exists
         return;
     }
     free(var);
