@@ -1,4 +1,6 @@
-Selector l = h1;
+Selector l = H1;
+addSelectors(l);
+setName("hola",l);
 double dou = 2.2;
 String h = "hello";
 int w = 8;

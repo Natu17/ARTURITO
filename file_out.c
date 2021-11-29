@@ -6,7 +6,13 @@
 void main(){
 	FILE file = createCssFile();
 	newSelectors();
-	writeSelectors(file);
+	struct selector *l = selectorInit(id);
+addSelectors(l );
+setName("hola", l );
+double dou = 2.20;
+char * h = "hello";
+int w = 8;
+writeSelectors(file);
 	closeFile(file);
 	}
 	

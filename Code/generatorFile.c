@@ -22,13 +22,13 @@ int newSelectors()
     
 }
 
-void addSelectors(struct selector s)
+void addSelectors(struct selector* s)
 {
     if (size == MAX)
     {
         // agrando? o error?
     }
-    selectors[size] = s;
+    selectors[size] = *s;
     size++;
 }
 
