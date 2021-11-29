@@ -13,7 +13,7 @@
 <assign>    ::= <type> <id> "=" <values> ";"
             | <type_master> <id> "=" <type_son> ";"
 
-<reassign>  ::= <id> "=" <values> ";"
+<reassign>  ::= <id> "=" <exp> ";"
 
 <call>      ::= <id> "(" <list_arg> ")" ";"
 
