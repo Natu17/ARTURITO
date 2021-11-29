@@ -81,7 +81,6 @@ Node* create_assignment_node(int data_type, char* lvalue, Node* rvalue, int line
     
     node->node_kind.assignment_node = a_node;
 
-    // return (Node *) node;
     return node;
 }
 
@@ -139,3 +138,35 @@ Node* create_double_node(double value, int line_number){
     return node;
 
 }
+Node* create_function_node(char* name, Node* args, int line_number){
+    printf("DEBUG: HENLO FUN NODE\n");
+    Node* node = malloc(sizeof(*node));
+    
+    node->node_type = FUN_CALL;
+    node->line_number = line_number;
+
+    FunctionNode fun_node;
+
+    fun_node.name = name;
+    fun_node.params = args;
+
+    node->node_kind.function_node = fun_node;
+
+    return node;
+}
+
+Node* concat_params(Node* curr_param, Node* rest_params, int line_number){
+    Node* node = malloc(sizeof(*node));
+
+    node->node_type = PARAM;
+    node->line_number = line_number;
+
+    ParamsNode p;
+
+    p.param = curr_param;
+    p.rest  = rest_params;
+
+    node->node_kind.param_node = p;
+    return node;
+}
+

@@ -57,7 +57,7 @@ DECL        : TYPE NAME '=' NEW TYPE '(' LIST_ARG ')' ';' {return 0;}
 
 ASSIGN      : VALUE '=' VALUES { $$ = create_assignment_node($1, $3, yylineno);}
 
-CALL        : NAME '(' LIST_ARG ')' {return 0;}
+CALL        : NAME '(' LIST_ARG ')' ';' {return 0;}
             ;
 
 

@@ -42,7 +42,8 @@ DOUBLE              [0-9]+\.[0-9]+
 {WHITESPACE}                   { /* Ignore */}
 {DIGIT}*                       { yylval.int_value  = atoi(yytext); return INT_LITERAL; }
 {DOUBLE}                       { yylval.double_value  = atof(yytext); return DOUBLE_LITERAL; }
-.                              { yylval.operation = yytext[0]; return yytext[0]; }
+.                              { return *yytext; }
+
 
 %%
 

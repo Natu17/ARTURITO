@@ -35,11 +35,23 @@ typedef struct AssignmentNode {
     struct Node* symbol_rvalue;
 } AssignmentNode;
 
+typedef struct FunctionNode {
+    char* name;
+    struct Node* params;
+} FunctionNode;
+
+typedef struct ParamsNode {
+    struct Node* param;
+    struct Node* rest;
+} ParamsNode;
+
 typedef union NodeKind {
     IfNode if_node;
     WhileNode while_node;
     GenericNode generic_node;
     AssignmentNode assignment_node;
+    FunctionNode function_node;
+    ParamsNode param_node;
     int int_node;
     char * str_node;
     double double_node;
@@ -62,5 +74,7 @@ Node* create_int_node(int value, int line_number);
 Node* create_especial_node(int value, int line_number);
 Node* create_str_node(char * value, int line_number);
 Node* create_double_node(double value, int line_number);
+Node* create_function_node(char* name, Node* args, int line_number);
+Node* concat_params(Node* curr_param, Node* rest_params, int line_number);
 
 #endif

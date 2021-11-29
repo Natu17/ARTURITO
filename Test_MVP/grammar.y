@@ -26,7 +26,7 @@
 
 %token<string> NAME VALUE
 %token<operation> NEW INT_TYPE DOUBLE STR SELECTOR DIV P BODY H1 H2 CLASS VOID ID_TYPE 
-%token<operation> IF WHILE REASSIGNMENT
+%token<operation> IF WHILE REASSIGNMENT FUN_CALL PARAM
 %token<int_value> INT_LITERAL
 %token<double_value> DOUBLE_LITERAL
 %token<string> STR_LITERAL
@@ -37,11 +37,10 @@
 %left '+' '-'
 %left '*' '/'
 %left NOT
-%left '('
-%right ')'
 
 %type <node> STATMENTS STATMENT EXP LIST_ARG VALUES NOT_ID_NUM ARITH CND BLOCK LOOP ASSIGN OP TYPE_MASTER TYPE_SON NOT_ID_STR REASSIGN 
-%type <operation> '<' '>' '(' ')' '+' '-' '/' '*' LE GE EQ NE AND OR TYPE
+%type<node> ARG CALL
+%type <operation> '<' '>' ')' '(' '+' '-' '/' '*' LE GE EQ NE AND OR TYPE
 %token<string> ID
 
 %parse-param {Node* root}
@@ -58,16 +57,26 @@ STATMENTS   : STATMENT STATMENTS {$$ = create_node(STATEMENT_LIST, $1, $2, yylin
             |      { $$ = NULL; }
             ;
 
-STATMENT    : CND  { $$ = $1; }
-            | LOOP { $$ = $1;}
-            | ASSIGN { $$=$1; }
+STATMENT    : CND      { $$ = $1; }
+            | LOOP     { $$ = $1;}
+            | ASSIGN   { $$ = $1; }
             | REASSIGN { $$ = $1;}
+            | CALL     { $$ = $1; }
             ;
 
 ASSIGN      : TYPE ID '=' VALUES ';' { $$ = create_assignment_node($1, $2, $4, yylineno); } 
             | TYPE_MASTER ID '=' TYPE_SON ';' { $$ = create_assignment_node($1, $2, $4, yylineno); } 
           
 REASSIGN    : ID '=' VALUES ';' { $$ = create_assignment_node(REASSIGNMENT, $1, $3, yylineno);}
+            ;
+CALL        : ID '(' LIST_ARG ')' ';' {$$ = create_function_node($1, $3, yylineno);}
+
+LIST_ARG    : ARG {$$ = $1;}
+            |     {$$ = NULL;}
+            ; 
+
+ARG         : EXP {$$ = $1;}
+            | EXP ',' ARG  {$$ = concat_params($1, $3, yylineno); }
             ;
 
 BLOCK       : '{' STATMENTS '}'  { $$=$2; }
@@ -86,6 +95,7 @@ EXP         : EXP OP EXP  {$$ = create_node($2, $1, $3, yylineno);}
 
 VALUES      : NOT_ID_NUM { $$=$1; }
             | NOT_ID_STR { $$=$1; }
+            | ID         { $$=$1; }
             ;   
 
 TYPE        : INT_TYPE  {$$=$1;}
@@ -134,6 +144,11 @@ void yyerror(Node* root, const char* msg) {
 }
 
 int main() {
+
+    /* #ifdef YYDEBUG
+      yydebug = 1;
+    #endif */
+
     Node root;
     int ret = yyparse(&root);
 

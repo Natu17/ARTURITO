@@ -139,9 +139,38 @@ int execute_assignment_node(Node* node){
     return 0;
 }
 
+void execute_function_node(Node* node){
+    FunctionNode f = node->node_kind.function_node;
+    if(f.params == NULL){
+        if(search(f.name) == NULL){
+            //TODO ERRORS
+            printf("ERROR");
+            return;
+        }
+
+        printf("%s();\n", f.name);
+        return;
+    }
+
+    printf("%s(", f.name);
+    execute_node(f.params);
+    printf(");\n");
+
+}
+
+void execute_param_node(Node* node){
+    ParamsNode p = node->node_kind.param_node;
+    execute_node(p.param);
+    printf(", ");
+    execute_node(p.rest);
+}
+
+int is_letter(int val){
+    return (val >= 65 && val <=90) || (val>=97 && val<= 122);
+}
+
 v_val execute_node(Node *node)
 {
-
     if (node != NULL)
     {
 
@@ -225,8 +254,19 @@ v_val execute_node(Node *node)
             v_val reti;
             reti.intval = node->node_kind.double_node;
             return reti;
+        case FUN_CALL:
+            execute_function_node(node);
+            break;
+        case PARAM:
+            execute_param_node(node);
+            break;
         default:
-            invalidNodeTypeErr(node->node_type);
+            if(is_letter(node->node_type)){
+                printf("%c ", node->node_type);
+            }else{
+                invalidNodeTypeErr(node->node_type);
+            }
+            
         }
     }
     v_val ret_null;
@@ -236,7 +276,6 @@ v_val execute_node(Node *node)
 
 void execute_tree(Node *node)
 {
-    
     execute_node(node);
 }
 
