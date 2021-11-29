@@ -49,7 +49,7 @@
 
 %%
 
-PROGRAM     : MAIN { printf("Finished Parsing :)\n"); }
+PROGRAM     : MAIN { return 0; }
 
 MAIN        : STATMENTS {memcpy(root, $1, sizeof(*root));}
 
@@ -153,9 +153,6 @@ int main() {
     int ret = yyparse(&root);
 
     init();
-    printf("Finished parsing \n");
-
-    printf("Executing tree \n");
     execute_tree(&root);
     exit(0);
 } 
