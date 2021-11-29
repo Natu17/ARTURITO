@@ -60,10 +60,10 @@ void writeSelectors(FILE *cssFile)
         fputs("\tpadding: ", cssFile);
         for (size_t j = 0; j < LEFT; j++)
         {
-            fprintf(cssFile, "%dpx ", selectors[i].margin[j]);
+            fprintf(cssFile, "%dpx ", selectors[i].padding[j]);
         }
 
-        fprintf(cssFile, "%dpx;\n", selectors[i].margin[LEFT]);
+        fprintf(cssFile, "%dpx;\n", selectors[i].padding[LEFT]);
 
         fputs("}\n", cssFile);
     }
@@ -106,3 +106,19 @@ void closeFile(FILE *cssFile)
     fclose(cssFile);
 }
 
+// int main(int argc, char const *argv[])
+// {
+
+//     FILE *file = createCssFile();
+//     newSelectors();
+//     struct selector *l = selectorInit(ID);
+    
+//     setName("hola", l);
+//     setPadding(4,l);
+//     addSelectors(l);
+//     double dou = 2.20;
+//     char *h = "hello";
+//     int w = 8;
+//     writeSelectors(file);
+//     closeFile(file);
+// }
