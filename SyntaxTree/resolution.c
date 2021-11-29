@@ -89,7 +89,6 @@ void execute_while_node(Node *node)
     execute_node(while_node.loop);
     printf("}\n");
 
-    // printf("DEBUG: Exited while\n");
 }
 
 
@@ -129,7 +128,9 @@ int execute_assignment_node(Node* node){
         case  DOUBLE:
             printf("double %s = ", a_node.symbol_lvalue);
             break;
-        default: printf("Unknown type %d", a_node.value_type);
+        default: 
+            // ERROR
+            printf("Unknown type %d", a_node.value_type);
         }
          
     v_val ret = execute_node(a_node.symbol_rvalue);
