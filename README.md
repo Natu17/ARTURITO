@@ -4,9 +4,9 @@
 Lenguaje para crear archivos .css a partir de archivos .art
 
 ## Integrantes
-* Lilienthal, Natali
-* Prado Torres, Macarena
-* Vidaurreta, Ignacio Matías
+* Lilienthal, Natali (60544)
+* Prado Torres, Macarena (59711)
+* Vidaurreta, Ignacio Matías (57250)
 
 ## Compilación
 Para compilar basta con utilizar `$ make all`, cualquiera de estas instrucciones generará el ejecutable: parser.
