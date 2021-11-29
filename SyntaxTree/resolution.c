@@ -225,23 +225,23 @@ v_val execute_node(Node *node)
             fflush(stdout);
             break;
         case BODY:
-            printf("selectorInit(body)");
+            printf("selectorInit(BODY)");
             fflush(stdout);
             break;
         case P:
-            printf("selectorInit(p)");
+            printf("selectorInit(P)");
             fflush(stdout);
             break;
         case DIV:
-            printf("selectorInit(div)");
+            printf("selectorInit(DIV)");
             fflush(stdout);
             break;
         case CLASS:
-            printf("selectorInit(class)");
+            printf("selectorInit(CLASS)");
             fflush(stdout);
             break;
         case ID_TYPE:
-            printf("selectorInit(id)");
+            printf("selectorInit(ID)");
             fflush(stdout);
             break;
         case STR:

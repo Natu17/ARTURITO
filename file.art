@@ -1,6 +1,7 @@
-Selector l = H1;
-addSelectors(l);
+Selector l = CLASS;
 setName("hola",l);
+setColor(13340764, l);
+addSelectors(l);
 double dou = 2.2;
 String h = "hello";
 int w = 8;

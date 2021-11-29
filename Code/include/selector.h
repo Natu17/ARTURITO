@@ -10,7 +10,7 @@ struct selector
     int fontSize;
     int margin[4];
     int padding[4];
-    char * name;
+    const char * name;
 };
 
 enum type
