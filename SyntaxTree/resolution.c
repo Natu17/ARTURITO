@@ -220,10 +220,13 @@ v_val execute_node(Node *node)
             break;
         case MINUS:
             execute_exp(node, MINUS);
+            break;
         case PLUS:
             execute_exp(node, PLUS);
+            break;
         case DIVISION:
             execute_exp(node, DIVISION);
+            break;
         case MULT:
             execute_exp(node, MULT);
             break;

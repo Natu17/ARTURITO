@@ -16,7 +16,7 @@ css_wizard: lex.yy.c y.tab.c y.tab.h
 	gcc -o parser ${C_FILES}
 
 clean:
-	rm -f lex.yy.c y.tab.c y.tab.h parser parser_debug
+	rm -f lex.yy.c y.tab.c y.tab.h parser parser_debug file_out file_out.c 
 
 debug: debug_wizard
 	echo "Finished Debugging Session"

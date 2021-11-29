@@ -8,8 +8,8 @@ struct selector
     int type;
     int color;
     int fontSize;
-    int margin[4];
     int padding[4];
+    int margin[4];
     const char * name;
 };
 

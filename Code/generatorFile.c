@@ -25,7 +25,6 @@ void addSelectors(struct selector *s)
 {
     if (size == MAX)
     {
-        // agrando? o error?
     }
     selectors[size] = *s;
     size++;
@@ -60,10 +59,10 @@ void writeSelectors(FILE *cssFile)
         fputs("\tpadding: ", cssFile);
         for (size_t j = 0; j < LEFT; j++)
         {
-            fprintf(cssFile, "%dpx ", selectors[i].margin[j]);
+            fprintf(cssFile, "%dpx ", selectors[i].padding[j]);
         }
 
-        fprintf(cssFile, "%dpx;\n", selectors[i].margin[LEFT]);
+        fprintf(cssFile, "%dpx;\n", selectors[i].padding[LEFT]);
 
         fputs("}\n", cssFile);
     }
