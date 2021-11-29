@@ -1,15 +1,7 @@
-if(3>2 && 3>1){
-Selector l = CLASS;
-setName("hola",l);
-setColor(13340764, l);
-addSelectors(l);
-
-Selector h = ID;
-setName("id",h);
+int n = 3;
+Selector h = H1;
 setColor(13340764, h);
-setMarginTop(2,h);
+setMarginTop(n,h);
+setMarginLeft(n,h);
+setPadding(n,h);
 addSelectors(h);
-double dou = 2.2;
-
-
-}

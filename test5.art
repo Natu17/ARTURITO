@@ -1,8 +1,11 @@
-int x = 3;
-while(x > 0){
+
+
+
+if(3>2 and 3>1){
 Selector l = CLASS;
 setName("hola",l);
 setColor(13340764, l);
+setFontSize(4,l);
 addSelectors(l);
 
 Selector h = ID;
@@ -10,6 +13,7 @@ setName("id",h);
 setColor(13340764, h);
 setMarginTop(2,h);
 addSelectors(h);
-x = x - 1;
+double dou = 2.2;
+
 
 }

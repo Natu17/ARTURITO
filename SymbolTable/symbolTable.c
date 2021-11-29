@@ -125,14 +125,6 @@ void insert(var_t * var) {
     else {
         sTable->vars[index]->value = var->value;
             return;
-        // if(strcmp(current_var->name, var->name) == 0 && current_var->type == var->type){  // update
-        //     sTable->vars[index]->value = var->value;
-        //     return;
-        // }
-        // else {
-        //     collisionErr();     // Collisions are quite rare for djb2 algorithm
-        //     return;
-        // }
     }
 }
 
