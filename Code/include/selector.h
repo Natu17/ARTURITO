@@ -8,8 +8,8 @@ struct selector
     int type;
     int color;
     int fontSize;
-    int padding[4];
     int margin[4];
+    int padding[4];
     const char * name;
 };
 
@@ -33,7 +33,7 @@ enum orientation
     LEFT,
 };
 
-const char *types[];
+extern const char *types[];
 struct selector *selectorInit(int type);
 void setColor(int color, struct selector *selectorStruct);
 void setFontSize(int font, struct selector *selectorStruct);
