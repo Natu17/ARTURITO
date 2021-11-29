@@ -19,10 +19,9 @@ int newSelectors()
     }
     size = 0;
     return 0;
-    
 }
 
-void addSelectors(struct selector* s)
+void addSelectors(struct selector *s)
 {
     if (size == MAX)
     {
@@ -43,7 +42,7 @@ void writeSelectors(FILE *cssFile)
 {
     for (size_t i = 0; i < size; i++)
     {
-        setType(selectors[i],cssFile);
+        setType(selectors[i], cssFile);
         fputs("{\n", cssFile);
         fprintf(cssFile, "\tcolor: #%x;\n", selectors[i].color);
         if (selectors[i].fontSize != DEF_FONT_SIZE)
@@ -70,7 +69,10 @@ void writeSelectors(FILE *cssFile)
     }
 }
 
-void setType(struct selector s, FILE * cssFile)
+void setType(struct selector s, FILE *cssFile)
+
+
+
 {
     if (s.type < CLASS)
     {
@@ -79,7 +81,9 @@ void setType(struct selector s, FILE * cssFile)
     }
     else
     {
-        char *string = malloc((strlen(s.name) + 1) * sizeof(char));
+
+        char *string = malloc(MAX* sizeof(char));
+        
         if (s.type == CLASS)
         {
             string[0] = '#';
@@ -88,7 +92,9 @@ void setType(struct selector s, FILE * cssFile)
         {
             string[0] = '.';
         }
+        
         strcat(string, s.name);
+
         fputs(string, cssFile);
         free(string);
         return;
@@ -104,19 +110,14 @@ void closeFile(FILE *cssFile)
 // {
 
 //     FILE *file = createCssFile();
-
-
-
-//     struct selector *s = selectorInit(ID);
-//     setName("hola", s);
-
-
-    
-//     setColor(0xCB905C, s);
-//     setMarginRight(10, s);
-//     setPadding(10, s);
 //     newSelectors();
-//     addSelectors(*s);
+//     struct selector *l = selectorInit(ID);
+    
+//     setName("hola", l);
+//     addSelectors(l);
+//     double dou = 2.20;
+//     char *h = "hello";
+//     int w = 8;
 //     writeSelectors(file);
 //     closeFile(file);
 // }

@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-FILE * createCssFile();
 void closeFile(FILE * cssFile);
 int newSelectors();
 void addSelectors(struct selector* s);

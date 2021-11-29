@@ -3,7 +3,7 @@ FLAGS  = -std=gnu99 -Wall
 
 all: main
 	
-main: generatorFile.c selector.c 
+main: generatorFile.c selector.c ../ErrorHandling/errorHandling.c
 	$(GCC) $^ -o $@ $(FLAGS)
 
 clean:

@@ -26,11 +26,11 @@ DOUBLE              [0-9]+\.[0-9]+
 "double"                       { yylval.operation = DOUBLE; return DOUBLE; }
 "H1"                           { yylval.operation = H1; return H1; }
 "H2"                           { yylval.operation = H2; return H2; }
-"body"                         { yylval.operation = BODY; return BODY; }
-"p"                            { yylval.operation = P; return P; }
-"div"                          { yylval.operation = DIV; return DIV; }
-"class"                        { yylval.operation = CLASS; return CLASS; }
-"id"                           { yylval.operation = ID_TYPE; return ID_TYPE; }
+"BODY"                         { yylval.operation = BODY; return BODY; }
+"P"                            { yylval.operation = P; return P; }
+"DIV"                          { yylval.operation = DIV; return DIV; }
+"CLASS"                        { yylval.operation = CLASS; return CLASS; }
+"ID"                           { yylval.operation = ID_TYPE; return ID_TYPE; }
 "Selector"                     { yylval.operation = SELECTOR; return SELECTOR; }
 "String"                       { yylval.operation = STR; return STR; }
 "<="                           { yylval.operation = LE; return LE; }
