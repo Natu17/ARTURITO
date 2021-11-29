@@ -1,0 +1,78 @@
+<program>   ::= <main>
+
+<main>      ::= <statments> 
+
+<statments> ::= <statment> <statments>
+
+<statment>  ::= <cnd>
+            | <loop>
+            | <assign>
+            | <reassign>
+            | <call>
+
+<assign>    ::= <type> <id> "=" <values> ";"
+            | <type_master> <id> "=" <type_son> ";"
+
+<reassign>  ::= <id> "=" <values> ";"
+
+<call>      ::= <id> "(" <list_arg> ")" ";"
+
+<list_arg>  ::= <arg>
+            | " "
+
+<arg>       ::= <exp>
+            | <exp> "," <arg>
+
+<block>     ::= "{" <statments> "}"
+            | " "
+
+<cnd>       ::= <if> "(" <exp> ")" <block>
+
+<loop>      ::= <while> "(" <exp> ")" <block>
+
+<exp>       ::= <exp> <op> <exp>
+            | <not> <exp>
+            | <values>
+
+<values>    ::= <not_id_sum>
+            | <not_id_str>
+            | <id>
+        
+<type>      ::= <int_type>
+            | <str>
+            | <double>
+
+<not_id_num>    ::= <int_literal>
+                | <double_literal>
+
+<not_id_str>    ::= <str_literal>
+
+<op>            ::= "+"
+                | "-"
+                | "*"
+                | "/"
+                | "<"
+                | "<"
+                | <le>
+                | <ge>
+                | <eq>
+                | <ne>
+                | <and>
+                | <or>
+
+<type_master>   ::= <selector>
+
+<type_son>      ::= <h1>
+                | <h2>
+                | <div>
+                | <p>
+                | <body>
+                | <class>
+                | <id_type>
+
+<id> ::= <str> <id> | <id> <int> | <str>
+<str ::= <character> <str> | <character>
+<int> ::= <digit> <int> | <digit>
+<double> ::= <int> "." <int>
+<word> ::= "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" | "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z" | "_" | "-"
+<digit>     ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
