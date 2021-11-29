@@ -150,22 +150,6 @@ void insertBasicFun(){
     createFun("setPaddingLeft", VOID, 2, SELECTOR, DOUBLE);
     createFun("setPaddingRight", VOID, 2, SELECTOR, DOUBLE);
     createFun("setName", VOID, 2, SELECTOR, STR);
-    // Other not implemented yet
-    // newH1, newH2, newDiv, newP, newBody, newClass, newId
-    // setBackgroundColor, setWidth, setHeight, textAlign
-    /*
-    createFun("newH1", H1, 0);
-    createFun("newH2", H2, 0);
-    createFun("newDiv", DIV, 0);
-    createFun("newP", P, 0);
-    createFun("newBody", BODY, 0);
-    createFun("newClass", CLASS, 0);
-    createFun("newId", ID, 0);
-    createFun("setBackgroundColor", VOID, 5, SELECTOR, INT_TYPE, INT_TYPE, INT_TYPE, INT_TYPE);
-    createFun("setWidth", VOID, 2, SELECTOR, DOUBLE);
-    createFun("setHeight", VOID, 2, SELECTOR, DOUBLE);
-    createFun("textAlign", VOID, 2, SELECTOR, STR);
-    */
 }
 
 var_t * search(char * name){
@@ -192,9 +176,3 @@ void delete(char * name){
 }
 
 
-
-// https://www.javatpoint.com/symbol-table
-// https://www.journaldev.com/35238/hash-table-in-c-plus-plus
-// http://www.cse.yorku.ca/~oz/hash.html
-// https://stackoverflow.com/questions/7666509/hash-function-for-string
-// https://www.tutorialspoint.com/cprogramming/c_variable_arguments.htm

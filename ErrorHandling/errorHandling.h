@@ -8,5 +8,7 @@ void invalidOperatorErr(int oper);
 void reassignmentErr();
 void variableExistsErr();
 void invalidNodeTypeErr(int type);
+void unknownTypeErr(int type);
+void functionDoesNotExistErr();
 
 #endif

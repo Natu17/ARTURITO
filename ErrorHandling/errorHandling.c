@@ -29,3 +29,11 @@ void variableExistsErr(){
 void invalidNodeTypeErr(int type){
     fprintf(stderr, "ERROR: Invalid node type %d.\n", type);
 }
+
+void unknownTypeErr(int type){
+    fprintf(stderr, "ERROR: Unknown type %d.\n", type);
+}
+
+void functionDoesNotExistErr(){
+    fprintf(stderr, "ERROR: Function doesn't exist.\n");
+}

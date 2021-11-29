@@ -128,8 +128,7 @@ int execute_assignment_node(Node *node)
         printf("double %s = ", a_node.symbol_lvalue);
         break;
     default:
-        // ERROR
-        printf("Unknown type %d", a_node.value_type);
+        unknownTypeErr(a_node.value_type);
     }
 
     v_val ret = execute_node(a_node.symbol_rvalue);
@@ -144,8 +143,7 @@ void execute_function_node(Node *node)
     FunctionNode f = node->node_kind.function_node;
     if (search(f.name) == NULL)
     {
-        // TODO ERRORS
-        printf("ERROR FUNCTION NAME");
+        functionDoesNotExistErr();
         return;
     }
 
