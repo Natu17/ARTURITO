@@ -136,7 +136,7 @@ void insert(var_t * var) {
 
 void insertBasicFun(){
     createFun("newSelector", SELECTOR, 0);
-    createFun("setColor", VOID, 5, SELECTOR, INT_TYPE, INT_TYPE, INT_TYPE, INT_TYPE);
+    createFun("setColor", VOID, 2, INT_TYPE, SELECTOR);
     createFun("addSelectors", VOID, 1, SELECTOR);
     createFun("setFontSize", VOID, 2, SELECTOR, INT_TYPE);
     createFun("setMargin", VOID, 2, SELECTOR, DOUBLE);
