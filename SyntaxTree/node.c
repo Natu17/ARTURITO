@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../Test_MVP/y.tab.h"
+#include "../y.tab.h"
 
 #include "include/node.h"
 

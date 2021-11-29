@@ -1,40 +1,38 @@
 #include "../ErrorHandling/errorHandling.h"
 #include "include/node.h"
-#include "../Test_MVP/y.tab.h"
+#include "../y.tab.h"
 #include "include/resolution.h"
 #include "../SymbolTable/symbolTable.h"
 
-
-v_val execute_node(Node* node);
+v_val execute_node(Node *node);
 
 void execute_bool(Node *node, int op)
-{   
+{
     GenericNode gen = node->node_kind.generic_node;
 
-    Node * left = gen.left;
-    Node * right = gen.right;
+    Node *left = gen.left;
+    Node *right = gen.right;
     execute_node(left);
 
-    if(op == AND){
+    if (op == AND)
+    {
 
-         printf(" && ");
-
-
-    }else
+        printf(" && ");
+    }
+    else
     {
         printf(" || ");
     }
 
     execute_node(right);
-    
 }
 
-
-void execute_exp(Node *node, int op){
+void execute_exp(Node *node, int op)
+{
     GenericNode gen = node->node_kind.generic_node;
 
-    Node * left = gen.left;
-    Node * right = gen.right;
+    Node *left = gen.left;
+    Node *right = gen.right;
     v_val l = execute_node(left);
 
     switch (op)
@@ -88,66 +86,71 @@ void execute_while_node(Node *node)
     printf("){\n\t");
     execute_node(while_node.loop);
     printf("}\n");
-
 }
 
-
-int execute_assignment_node(Node* node){
+int execute_assignment_node(Node *node)
+{
     AssignmentNode a_node = node->node_kind.assignment_node;
-    char* var_name = a_node.symbol_lvalue;
+    char *var_name = a_node.symbol_lvalue;
 
-    if(a_node.value_type == REASSIGNMENT){
-        if(search(var_name) == NULL){
+    if (a_node.value_type == REASSIGNMENT)
+    {
+        if (search(var_name) == NULL)
+        {
             reassignmentErr();
         }
         printf("%s = ", a_node.symbol_lvalue);
         v_val ret = execute_node(a_node.symbol_rvalue);
-        createVar(var_name, a_node.value_type, ret); 
-        
+        createVar(var_name, a_node.value_type, ret);
+
         printf(";\n");
         return -1;
     }
 
-
-    if( search(var_name) != NULL) {
+    if (search(var_name) != NULL)
+    {
         variableExistsErr();
     }
-    
-     switch (a_node.value_type)
-        {
-        case INT_TYPE:
-            printf("int %s = ", a_node.symbol_lvalue);
-            break;
-        case SELECTOR:
-            printf("struct selector *%s = ", a_node.symbol_lvalue);
-            fflush(stdout);
-            break;
-        case  STR:
-            printf("char * %s = ", a_node.symbol_lvalue);
-            break;
-        case  DOUBLE:
-            printf("double %s = ", a_node.symbol_lvalue);
-            break;
-        default: 
-            // ERROR
-            printf("Unknown type %d", a_node.value_type);
-        }
-         
+
+    switch (a_node.value_type)
+    {
+    case INT_TYPE:
+        printf("int %s = ", a_node.symbol_lvalue);
+        break;
+    case SELECTOR:
+        printf("struct selector *%s = ", a_node.symbol_lvalue);
+        fflush(stdout);
+        break;
+    case STR:
+        printf("char * %s = ", a_node.symbol_lvalue);
+        break;
+    case DOUBLE:
+        printf("double %s = ", a_node.symbol_lvalue);
+        break;
+    default:
+        // ERROR
+        printf("Unknown type %d", a_node.value_type);
+    }
+
     v_val ret = execute_node(a_node.symbol_rvalue);
-    createVar(var_name, a_node.value_type, ret); 
-    
+    createVar(var_name, a_node.value_type, ret);
+
     printf(";\n");
     return 0;
 }
 
-void execute_function_node(Node* node){
+void execute_function_node(Node *node)
+{
     FunctionNode f = node->node_kind.function_node;
-    if(f.params == NULL){
-        if(search(f.name) == NULL){
-            //TODO ERRORS
-            printf("ERROR");
-            return;
-        }
+    if (search(f.name) == NULL)
+    {
+        // TODO ERRORS
+        printf("ERROR FUNCTION NAME");
+        return;
+    }
+
+    if (f.params == NULL)
+    {
 
         printf("%s();\n", f.name);
         return;
@@ -156,18 +159,19 @@ void execute_function_node(Node* node){
     printf("%s(", f.name);
     execute_node(f.params);
     printf(");\n");
-
 }
 
-void execute_param_node(Node* node){
+void execute_param_node(Node *node)
+{
     ParamsNode p = node->node_kind.param_node;
     execute_node(p.param);
     printf(", ");
     execute_node(p.rest);
 }
 
-int is_letter(int val){
-    return (val >= 65 && val <=90) || (val>=97 && val<= 122);
+int is_letter(int val)
+{
+    return (val >= 65 && val <= 90) || (val >= 97 && val <= 122);
 }
 
 v_val execute_node(Node *node)
@@ -178,8 +182,8 @@ v_val execute_node(Node *node)
         switch (node->node_type)
         {
         case IF:
-             execute_if_node(node);
-             break;
+            execute_if_node(node);
+            break;
         case GT:
             execute_exp(node, GT);
             break;
@@ -201,10 +205,10 @@ v_val execute_node(Node *node)
         case AND:
             execute_bool(node, AND);
             break;
-         case OR:
+        case OR:
             execute_bool(node, OR);
             break;
-         case STATEMENT_LIST:;
+        case STATEMENT_LIST:;
             GenericNode gen = node->node_kind.generic_node;
             execute_node(gen.left);
             execute_node(gen.right);
@@ -262,12 +266,14 @@ v_val execute_node(Node *node)
             execute_param_node(node);
             break;
         default:
-            if(is_letter(node->node_type)){
+            if (is_letter(node->node_type))
+            {
                 printf("%c ", node->node_type);
-            }else{
+            }
+            else
+            {
                 invalidNodeTypeErr(node->node_type);
             }
-            
         }
     }
     v_val ret_null;
@@ -277,7 +283,8 @@ v_val execute_node(Node *node)
 
 void execute_tree(Node *node)
 {
+    printf("#include <stdlib.h>\n#include <stdio.h>\n#include <string.h>\n#include \"Code/include/selector.h\"\n#include \"Code/include/generatorFile.h\"\n");
+    printf("void main(){\n\tFILE file = createCssFile();\n\tnewSelectors();\n\t");
     execute_node(node);
+    printf("writeSelectors(file);\n\tcloseFile(file);\n\t}\n\t");
 }
-
-

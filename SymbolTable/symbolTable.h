@@ -2,7 +2,7 @@
 #define SYMBOLTABLE_H
 
 // Enums
-#include "../Test_MVP/y.tab.h"
+#include "../y.tab.h"
 
 typedef enum op {ADD_OP=0, SUB_OP, MUL_OP, DIV_OP, LESS_OP, GREATER_OP, LESS_EQ_OP, GREATER_EQ_OP, EQUALS_OP, NEQ_OP, AND_OP, OR_OP} op;
 

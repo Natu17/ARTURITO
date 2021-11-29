@@ -3,7 +3,7 @@
 #include <string.h>
 #include "include/selector.h"
 #include "include/generatorFile.h"
-#include "../ErrorHandling/errorHandling.h"
+#include "ErrorHandling/errorHandling.h"
 #define MAX 4096
 
 struct selector *selectors;
