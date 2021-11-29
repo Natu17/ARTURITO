@@ -1,0 +1,7 @@
+Selector l = id;
+addSelectors(l);
+setName("hola",l);
+setColor(l,0xCB905C);
+double dou = 2.2;
+String h = "hello";
+int w = 8;
