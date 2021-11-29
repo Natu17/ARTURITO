@@ -24,7 +24,7 @@
 
 
 %token<string> NAME VALUE
-%token<operation> NEW INT_TYPE DOUBLE STR SELECTOR DIV P BODY H1 H2 CLASS VOID 
+%token<operation> NEW INT_TYPE DOUBLE STR SELECTOR DIV P BODY H1 H2 CLASS VOID ID_TYPE 
 %token<operation> IF WHILE
 %token<int_value> INT_LITERAL
 %token<string> STR_LITERAL
@@ -110,13 +110,13 @@ OP          : '+' {$$=$1;}
 TYPE_MASTER : SELECTOR 
             ;
 
-TYPE_SON    : H1  {$$ = create_especial_node($1, yylineno);}
-            | H2 
-            | DIV  
-            | P
-            | BODY
-            | CLASS
-            | ID 
+TYPE_SON    : H1    {$$ = create_especial_node($1, yylineno);}
+            | H2    {$$ = create_especial_node($1, yylineno);}
+            | DIV   {$$ = create_especial_node($1, yylineno);}
+            | P     {$$ = create_especial_node($1, yylineno);}
+            | BODY  {$$ = create_especial_node($1, yylineno);}
+            | CLASS {$$ = create_especial_node($1, yylineno);}
+            | ID_TYPE    {$$ = create_especial_node($1, yylineno);}
             ;
             
 %%

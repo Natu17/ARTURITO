@@ -21,15 +21,16 @@ END_COMMENT         \*\/
 "int"                          { yylval.operation = INT; return INT; }
 "String"                       { yylval.operation = STR; return STR; }
 "double"                       { yylval.operation = DOUBLE; return DOUBLE; }
-"void"                          { yylval.operation = VOID; return VOID; }
+"void"                         { yylval.operation = VOID; return VOID; }
 
 "Color"                        { yylval.operation = COLOR; return COLOR; }
 "Selector"                     { yylval.operation = SELECTOR; return SELECTOR; }
 "Div"                          { yylval.operation = DIV; return DIV; }
 "P"                            { yylval.operation = P; return P; }
-"Body"                         { yylval.operation = Body; return Body; }
+"Body"                         { yylval.operation = BODY; return BODY; }
 "H1"                           { yylval.operation = H1; return H1; }
 "H2"                           { yylval.operation = H2; return H2; }
+
 "Id"                           { yylval.operation = ID; return ID; }
 "Class"                        { yylval.operation = CLASS; return CLASS; }
 

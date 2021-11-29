@@ -23,6 +23,12 @@ WORD                 \"[a-zA-Z0-9_-]*\"
 "not"                          { yylval.operation = NOT; return NOT; }
 "int"                          { yylval.operation = INT_TYPE; return INT_TYPE; }
 "H1"                           { yylval.operation = H1; return H1; }
+"H2"                           { yylval.operation = H2; return H2; }
+"body"                         { yylval.operation = BODY; return BODY; }
+"p"                            { yylval.operation = P; return P; }
+"div"                          { yylval.operation = DIV; return DIV; }
+"class"                        { yylval.operation = CLASS; return CLASS; }
+"id"                           { yylval.operation = ID_TYPE; return ID_TYPE; }
 "Selector"                     { yylval.operation = SELECTOR; return SELECTOR; }
 "String"                       { yylval.operation = STR; return STR; }
 "<="                           { yylval.operation = LE; return LE; }
@@ -31,7 +37,7 @@ WORD                 \"[a-zA-Z0-9_-]*\"
 {ID}                           { yylval.string = strdup(yytext); return ID; }
 {WORD}                         { yylval.string = strdup(yytext); return STR_LITERAL; }
 {BLANK_LINE}                   { yylineno++; }
-{WHITESPACE}                  { /* Ignore */}
+{WHITESPACE}                   { /* Ignore */}
 {DIGIT}*                       { yylval.int_value  = atoi(yytext); return INT_LITERAL; }
 .                              { yylval.operation = yytext[0]; return yytext[0]; }
 
