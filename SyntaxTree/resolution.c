@@ -105,7 +105,7 @@ int execute_assignment_node(Node* node){
         createVar(var_name, a_node.value_type, ret); 
         
         printf(";\n");
-        return;
+        return -1;
     }
 
 
@@ -126,6 +126,9 @@ int execute_assignment_node(Node* node){
         case  STR:
             printf("char * %s = ", a_node.symbol_lvalue);
             break;
+        case  DOUBLE:
+            printf("double %s = ", a_node.symbol_lvalue);
+            break;
         default: printf("Unknown type %d", a_node.value_type);
         }
          
@@ -133,7 +136,7 @@ int execute_assignment_node(Node* node){
     createVar(var_name, a_node.value_type, ret); 
     
     printf(";\n");
-
+    return 0;
 }
 
 v_val execute_node(Node *node)
@@ -197,6 +200,11 @@ v_val execute_node(Node *node)
             v_val ret;
             ret.intval = node->node_kind.int_node;
             return ret;
+        case DOUBLE:;
+            printf("%.2f", node->node_kind.double_node);
+            v_val reti;
+            reti.intval = node->node_kind.double_node;
+            return reti;
         default:
             printf("ERROR: %d", node->node_type);
         }

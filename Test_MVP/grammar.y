@@ -16,6 +16,7 @@
   char * string;
   int operation;
   int int_value;
+  double double_value;
   Node* node;
   Node* root_node;
 }
@@ -27,6 +28,7 @@
 %token<operation> NEW INT_TYPE DOUBLE STR COLOR SELECTOR DIV P BODY H1 H2 CLASS VOID 
 %token<operation> IF WHILE REASSIGNMENT
 %token<int_value> INT_LITERAL
+%token<double_value> DOUBLE_LITERAL
 %token<string> STR_LITERAL
 
 %right "="
@@ -88,9 +90,11 @@ VALUES      : NOT_ID_NUM { $$=$1; }
 
 TYPE        : INT_TYPE  {$$=$1;}
             | STR       {$$=$1;}
+            | DOUBLE    {$$=$1;}
             ;
 
 NOT_ID_NUM  : INT_LITERAL  {$$ = create_int_node($1, yylineno);}
+            | DOUBLE_LITERAL  {$$ = create_double_node($1, yylineno);}
             ; 
 
 NOT_ID_STR  : STR_LITERAL  {$$ = create_str_node($1, yylineno);}
@@ -130,7 +134,6 @@ void yyerror(Node* root, const char* msg) {
 }
 
 int main() {
-
     Node root;
     int ret = yyparse(&root);
 

@@ -125,3 +125,17 @@ Node* create_str_node(char * value, int line_number){
     return node;
 
 }
+
+Node* create_double_node(double value, int line_number){
+    printf("DEBUG: HENLO DOUBLE NODE ");
+
+    Node* node = malloc(sizeof(*node));
+    node->node_type   = DOUBLE;
+    node->line_number = line_number;
+
+
+    node->node_kind.double_node = value;
+
+    return node;
+
+}
