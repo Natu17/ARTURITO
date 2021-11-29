@@ -25,4 +25,4 @@ debug_wizard: lex.yy.c y.tab.c y.tab.h
 	gcc -g -o parser_debug ${C_FILES}
 
 run:
-	./parser < $(FILE_IN) > file_out.c && gcc file_out.c Code/generatorFile.c Code/selector.c -o file_out
+	./parser < $(FILE_IN) > file_out.c && gcc file_out.c Code/generatorFile.c Code/selector.c ErrorHandling/errorHandling.c -o file_out

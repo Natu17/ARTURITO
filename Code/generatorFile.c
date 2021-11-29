@@ -100,23 +100,23 @@ void closeFile(FILE *cssFile)
     fclose(cssFile);
 }
 
-int main(int argc, char const *argv[])
-{
+// int main(int argc, char const *argv[])
+// {
 
-    FILE *file = createCssFile();
+//     FILE *file = createCssFile();
 
 
 
-    struct selector *s = selectorInit(ID);
-    setName("hola", s);
+//     struct selector *s = selectorInit(ID);
+//     setName("hola", s);
 
 
     
-    setColor(0xCB905C, s);
-    setMarginRight(10, s);
-    setPadding(10, s);
-    newSelectors();
-    addSelectors(*s);
-    writeSelectors(file);
-    closeFile(file);
-}
+//     setColor(0xCB905C, s);
+//     setMarginRight(10, s);
+//     setPadding(10, s);
+//     newSelectors();
+//     addSelectors(*s);
+//     writeSelectors(file);
+//     closeFile(file);
+// }

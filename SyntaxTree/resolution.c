@@ -282,7 +282,7 @@ v_val execute_node(Node *node)
 void execute_tree(Node *node)
 {
     printf("#include <stdlib.h>\n#include <stdio.h>\n#include <string.h>\n#include \"Code/include/selector.h\"\n#include \"Code/include/generatorFile.h\"\n");
-    printf("void main(){\n\tFILE file = createCssFile();\n\tnewSelectors();\n\t");
+    printf("void main(){\n\tFILE * file = createCssFile();\n\tnewSelectors();\n\t");
     execute_node(node);
     printf("writeSelectors(file);\n\tcloseFile(file);\n\t}\n\t");
 }
