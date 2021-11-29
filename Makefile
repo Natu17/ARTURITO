@@ -4,7 +4,7 @@ C_FILES=lex.yy.c y.tab.c SyntaxTree/node.c SyntaxTree/resolution.c SymbolTable/s
 FILE_IN=file.art
 
 all: css_wizard
-	@echo "COMPILED TEST_MVP"
+	@echo "COMPILED"
 
 y.tab.c y.tab.h: grammar.y
 	yacc -d grammar.y --debug

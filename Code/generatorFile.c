@@ -106,18 +106,3 @@ void closeFile(FILE *cssFile)
     fclose(cssFile);
 }
 
-// int main(int argc, char const *argv[])
-// {
-
-//     FILE *file = createCssFile();
-//     newSelectors();
-//     struct selector *l = selectorInit(ID);
-    
-//     setName("hola", l);
-//     addSelectors(l);
-//     double dou = 2.20;
-//     char *h = "hello";
-//     int w = 8;
-//     writeSelectors(file);
-//     closeFile(file);
-// }
