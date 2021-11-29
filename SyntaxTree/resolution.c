@@ -55,6 +55,18 @@ void execute_exp(Node *node, int op)
     case NE:
         printf("!=");
         break;
+    case MINUS:
+        printf("-");
+        break;
+    case PLUS:
+        printf("+");
+        break;  
+    case MULT:
+        printf("*");
+        break;
+    case DIVISION:
+        printf("/");
+        break;
     default:
         invalidOperatorErr(op);
     }
@@ -205,6 +217,15 @@ v_val execute_node(Node *node)
             break;
         case OR:
             execute_bool(node, OR);
+            break;
+        case MINUS:
+            execute_exp(node, MINUS);
+        case PLUS:
+            execute_exp(node, PLUS);
+        case DIVISION:
+            execute_exp(node, DIVISION);
+        case MULT:
+            execute_exp(node, MULT);
             break;
         case STATEMENT_LIST:;
             GenericNode gen = node->node_kind.generic_node;

@@ -62,12 +62,13 @@ STATMENT    : CND      { $$ = $1; }
             | ASSIGN   { $$ = $1; }
             | REASSIGN { $$ = $1;}
             | CALL     { $$ = $1; }
+            
             ;
 
 ASSIGN      : TYPE ID '=' VALUES ';' { $$ = create_assignment_node($1, $2, $4, yylineno); } 
             | TYPE_MASTER ID '=' TYPE_SON ';' { $$ = create_assignment_node($1, $2, $4, yylineno); } 
           
-REASSIGN    : ID '=' VALUES ';' { $$ = create_assignment_node(REASSIGNMENT, $1, $3, yylineno);}
+REASSIGN    : ID '=' EXP ';' { $$ = create_assignment_node(REASSIGNMENT, $1, $3, yylineno);} 
             ;
 CALL        : ID '(' LIST_ARG ')' ';' {$$ = create_function_node($1, $3, yylineno);}
 
