@@ -1,7 +1,14 @@
+if(3>2){
 Selector l = CLASS;
 setName("hola",l);
 setColor(13340764, l);
 addSelectors(l);
-double dou = 2.2;
-String h = "hello";
-int w = 8;
+
+Selector h = ID;
+setName("id",h);
+setColor(13340764, h);
+setMarginTop(2,h);
+addSelectors(h);
+
+
+}

@@ -82,7 +82,7 @@ void setType(struct selector s, FILE *cssFile)
     else
     {
 
-        char *string = malloc(MAX* sizeof(char));
+        char *string = calloc(MAX,sizeof(char));
         
         if (s.type == CLASS)
         {
