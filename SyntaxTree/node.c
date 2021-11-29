@@ -18,6 +18,8 @@ Node* create_node(int node_type, Node* left, Node* right, int line_number){
 
     node->node_kind.generic_node = generic_node;
 
+    // printf("Sons ids: left->%d, right->%d", node->node_kind.generic_node.left->node_type, node->node_kind.generic_node.right->node_type);
+
     return node;
 }
 
@@ -119,6 +121,20 @@ Node* create_str_node(char * value, int line_number){
 
 
     node->node_kind.str_node = value;
+
+    return node;
+
+}
+
+Node* create_double_node(double value, int line_number){
+    printf("DEBUG: HENLO DOUBLE NODE ");
+
+    Node* node = malloc(sizeof(*node));
+    node->node_type   = DOUBLE;
+    node->line_number = line_number;
+
+
+    node->node_kind.double_node = value;
 
     return node;
 

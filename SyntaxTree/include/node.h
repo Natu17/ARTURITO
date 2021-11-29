@@ -42,6 +42,7 @@ typedef union NodeKind {
     AssignmentNode assignment_node;
     int int_node;
     char * str_node;
+    double double_node;
 } NodeKind;
 
 typedef struct Node {
@@ -60,5 +61,6 @@ Node* create_assignment_node(int data_type, char* lvalue, Node* rvalue, int line
 Node* create_int_node(int value, int line_number);
 Node* create_especial_node(int value, int line_number);
 Node* create_str_node(char * value, int line_number);
+Node* create_double_node(double value, int line_number);
 
 #endif

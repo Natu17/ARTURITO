@@ -94,7 +94,22 @@ void execute_while_node(Node *node)
 int execute_assignment_node(Node* node){
     AssignmentNode a_node = node->node_kind.assignment_node;
     char* var_name = a_node.symbol_lvalue;
-        if( search(var_name) != NULL) {
+
+    if(a_node.value_type == REASSIGNMENT){
+        if(search(var_name) == NULL){
+            // Error Handling
+            printf("ERROR INSIDE REASSIGNMENT");
+        }
+        printf("%s = ", a_node.symbol_lvalue);
+        v_val ret = execute_node(a_node.symbol_rvalue);
+        createVar(var_name, a_node.value_type, ret); 
+        
+        printf(";\n");
+        return -1;
+    }
+
+
+    if( search(var_name) != NULL) {
         //Error Handling
         printf("ERROR");
     }
@@ -111,6 +126,9 @@ int execute_assignment_node(Node* node){
         case  STR:
             printf("char * %s = ", a_node.symbol_lvalue);
             break;
+        case  DOUBLE:
+            printf("double %s = ", a_node.symbol_lvalue);
+            break;
         default: printf("Unknown type %d", a_node.value_type);
         }
          
@@ -118,7 +136,7 @@ int execute_assignment_node(Node* node){
     createVar(var_name, a_node.value_type, ret); 
     
     printf(";\n");
-
+    return 0;
 }
 
 v_val execute_node(Node *node)
@@ -202,6 +220,11 @@ v_val execute_node(Node *node)
             v_val ret;
             ret.intval = node->node_kind.int_node;
             return ret;
+        case DOUBLE:;
+            printf("%.2f", node->node_kind.double_node);
+            v_val reti;
+            reti.intval = node->node_kind.double_node;
+            return reti;
         default:
             printf("ERROR: %d", node->node_type);
         }

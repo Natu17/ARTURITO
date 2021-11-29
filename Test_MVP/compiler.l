@@ -10,6 +10,7 @@ END_COMMENT         \*\/
 WHITESPACE          [ \t]*
 ID                  [a-zA-Z][a-zA-Z0-9_-]*
 WORD                 \"[a-zA-Z0-9_-]*\"
+DOUBLE              [0-9]+\.[0-9]+
 
 %%
 [\n]			               {yylineno++;}
@@ -22,6 +23,7 @@ WORD                 \"[a-zA-Z0-9_-]*\"
 "or"                           { yylval.operation = OR; return OR; }
 "not"                          { yylval.operation = NOT; return NOT; }
 "int"                          { yylval.operation = INT_TYPE; return INT_TYPE; }
+"double"                       { yylval.operation = DOUBLE; return DOUBLE; }
 "H1"                           { yylval.operation = H1; return H1; }
 "H2"                           { yylval.operation = H2; return H2; }
 "body"                         { yylval.operation = BODY; return BODY; }
@@ -39,6 +41,7 @@ WORD                 \"[a-zA-Z0-9_-]*\"
 {BLANK_LINE}                   { yylineno++; }
 {WHITESPACE}                   { /* Ignore */}
 {DIGIT}*                       { yylval.int_value  = atoi(yytext); return INT_LITERAL; }
+{DOUBLE}                       { yylval.double_value  = atof(yytext); return DOUBLE_LITERAL; }
 .                              { yylval.operation = yytext[0]; return yytext[0]; }
 
 %%
